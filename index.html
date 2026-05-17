@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Damian Marquez — Senior Developer & Tech Mentor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #ffffff12;
+    --accent: #7c6dfa;
+    --accent2: #fa6d6d;
+    --accent3: #6dfabc;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --tag-bg: #ffffff0a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.35;
+  }
+
+  /* ── GRID LINES ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: #0a0a0fcc;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── SECTIONS WRAPPER ── */
+  main { position: relative; z-index: 1; }
+
+  section { 
+    padding: 7rem 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+  h1 em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent);
+  }
+  h1 .line2 { display: block; }
+  h1 .accent-word { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--text); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 1s;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .orb1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #7c6dfa22, transparent 70%);
+    top: 10%; right: -10%;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #fa6d6d18, transparent 70%);
+    bottom: 20%; left: -5%;
+    animation: float 11s ease-in-out infinite reverse;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 3.5rem;
+  }
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #7c6dfa18;
+    border: 1px solid #7c6dfa33;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+  }
+  .section-line {
+    flex: 1; height: 1px; background: var(--border);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .about-text p strong { color: var(--text); }
+  .about-details {
+    display: flex; flex-direction: column; gap: 1.2rem;
+  }
+  .detail-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s;
+  }
+  .detail-item:hover { border-color: var(--accent); }
+  .detail-icon {
+    font-size: 1.3rem; width: 2rem; text-align: center;
+  }
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .detail-value {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .exp-item {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .exp-item.visible { opacity: 1; transform: translateX(0); }
+
+  .exp-dot {
+    position: absolute;
+    left: -4px; top: 0.4rem;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .exp-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .exp-company {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .exp-role {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+  .exp-desc {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.65rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+  .tag.go { border-color: #7c6dfa44; color: var(--accent); background: #7c6dfa0d; }
+  .tag.java { border-color: #fa6d6d44; color: var(--accent2); background: #fa6d6d0d; }
+  .tag.react { border-color: #6dfabc44; color: var(--accent3); background: #6dfabc0d; }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.8rem;
+    transition: border-color 0.2s, transform 0.2s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s;
+  }
+  .skill-card.visible { opacity: 1; transform: translateY(0); }
+  .skill-card:hover { border-color: var(--accent); }
+
+  .skill-card-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+  .skill-card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .skill-card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+  .skill-card-tags .tag { font-size: 0.65rem; }
+
+  /* ── CONTACT ── */
+  #contact {
+    text-align: center;
+  }
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4rem 3rem;
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 200px;
+    background: radial-gradient(ellipse, #7c6dfa22, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-card h2 { margin-bottom: 0.5rem; }
+  .contact-card p { color: var(--muted); margin-bottom: 2rem; }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1100px; margin: 0 auto;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-30px); }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    h1 { font-size: 3rem; }
+    .hero-stats { gap: 1.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">DM<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <p class="hero-eyebrow">// Senior Full Stack Developer & Tech Mentor</p>
+    <h1>
+      Damian<br>
+      <span class="line2"><em>Mar</em><span class="accent-word">quez</span></span>
+    </h1>
+    <p class="hero-sub">
+      Started coding at 15. Still at it — now with 18+ years building distributed systems, growing engineering teams, and automating everything I can get my hands on. Buenos Aires · Open to remote.
+    </p>
+    <div class="hero-ctas">
+      <a href="#experience" class="btn btn-primary">View Experience</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">18<span>+</span></div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div>
+        <div class="stat-num">36<span>+</span></div>
+        <div class="stat-label">Devs mentored</div>
+      </div>
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-label">Training waves</div>
+      </div>
+      <div>
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Years at Coca-Cola LATAM</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-tag">01 / About</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Turning complexity<br>into clarity</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I started programming at <strong>15</strong> — long before it was a career plan. That early obsession with making machines do things automatically never really left. It just evolved.</p>
+        <p>Over 18+ years I've worked across <strong>fintech, mobility, BI, and enterprise</strong> environments, always gravitating toward the same thing: finding better ways to build, and helping the people around me grow alongside the work. Throughout every company I've been part of, I've naturally taken on mentoring and coaching roles — onboarding new developers, pushing them toward their potential while being mindful of the balance between professional growth and personal life. That balance matters to me as much as the code.</p>
+        <p>Automation and AI have been a constant thread. I was that person automating repetitive tasks before it had a cool name. Now, with the current leap in AI capabilities, what used to take months can happen in days — and I find that genuinely exciting, not threatening. Through <strong>BoostersAI</strong> I've been helping non-IT professionals tap into that same energy: making powerful tools accessible to everyone, not just developers.</p>
+      </div>
+      <div class="about-details">
+        <div class="detail-item">
+          <div class="detail-icon">📍</div>
+          <div>
+            <div class="detail-label">Location</div>
+            <div class="detail-value">Buenos Aires, Argentina</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">💼</div>
+          <div>
+            <div class="detail-label">Current Role</div>
+            <div class="detail-value">Squad Senior at Teamcubation</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">🌐</div>
+          <div>
+            <div class="detail-label">Languages</div>
+            <div class="detail-value">Spanish (Native) · English (Professional)</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">🎯</div>
+          <div>
+            <div class="detail-label">Availability</div>
+            <div class="detail-value">Open to remote opportunities</div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">🚀</div>
+          <div>
+            <div class="detail-label">Focus Areas</div>
+            <div class="detail-value">GoLang · Mentoring · AI Automation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-tag">02 / Experience</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Career Journey</h2>
+
+    <div class="timeline">
+
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-header">
+          <div class="exp-company">Teamcubation</div>
+          <div class="exp-period">Dec 2022 – Present · 3y 5m</div>
+        </div>
+        <div class="exp-role">Squad Senior — GoLang / Java · Tech Mentor</div>
+        <div class="exp-desc">
+          Led a long-term talent development program across 6 waves, mentoring 36+ junior developers from entry-level to near Semi-Senior through technical coaching, code reviews, architectural guidance, and real project delivery. Designed learning paths centered on GoLang, Java, TypeScript, and React.<br><br>
+          In parallel, launched <strong style="color:var(--text)">BoostersAI</strong> — a mentoring initiative for non-IT professionals, conducting multiple training cycles on Power Automate, Copilot Studio, and N8N.
+        </div>
+        <div class="tag-row">
+          <span class="tag go">GoLang</span>
+          <span class="tag java">Java</span>
+          <span class="tag java">Spring Boot</span>
+          <span class="tag react">React</span>
+          <span class="tag react">TypeScript</span>
+          <span class="tag">Docker</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">RabbitMQ</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Power Automate</span>
+          <span class="tag">N8N</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-header">
+          <div class="exp-company">Globant <span style="color:var(--muted);font-weight:400;font-size:0.85rem">/ Cabify</span></div>
+          <div class="exp-period">Apr 2021 – Nov 2022 · 1y 8m</div>
+        </div>
+        <div class="exp-role">Full Stack GoLang / Java Developer SSR</div>
+        <div class="exp-desc">
+          Worked embedded in Cabify's COPs team on driver acquisition systems. Developed the Harvey system (harassment request processing + Zendesk ticketing), multiple middleware services for data centralization using gRPC and message queues, and a reservations message-filtering service. Continued the habit of coaching and onboarding teammates, helping junior members navigate the codebase and ramp up quickly.
+        </div>
+        <div class="tag-row">
+          <span class="tag go">GoLang</span>
+          <span class="tag java">Java</span>
+          <span class="tag">Groovy</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Google Cloud Run</span>
+          <span class="tag">Kibana</span>
+          <span class="tag">Zendesk</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-header">
+          <div class="exp-company">Baufest <span style="color:var(--muted);font-weight:400;font-size:0.85rem">/ BBVA</span></div>
+          <div class="exp-period">Feb 2020 – Apr 2021 · 1y 3m</div>
+        </div>
+        <div class="exp-role">Full Stack Java Developer SSR</div>
+        <div class="exp-desc">
+          Full stack development for BBVA, working with Java 1.6/1.8, Spring Boot, Go, Kotlin, and JavaScript. Beyond the technical work, participated as Gaming Interest Group Leader, Baufest Ambassador, and led two onboarding processes for new team members — a recurring pattern across every role: finding opportunities to bring people in and push them forward.
+        </div>
+        <div class="tag-row">
+          <span class="tag java">Java</span>
+          <span class="tag java">Spring Boot</span>
+          <span class="tag go">Go</span>
+          <span class="tag">Kotlin</span>
+          <span class="tag">MS-SQL</span>
+          <span class="tag">Postgres</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-header">
+          <div class="exp-company">ADAMAT S.A.</div>
+          <div class="exp-period">Apr 2017 – Feb 2020 · 2y 11m</div>
+        </div>
+        <div class="exp-role">Systems Administration Manager</div>
+        <div class="exp-desc">
+          Led the Systems and Administration area with full P&L and organizational responsibility. Planned short and long-term objectives, directed the technical team, and advised on hiring, training, and company-wide process improvements.
+        </div>
+        <div class="tag-row">
+          <span class="tag">Systems Management</span>
+          <span class="tag">Team Leadership</span>
+          <span class="tag">Strategic Planning</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-header">
+          <div class="exp-company">The Coca-Cola Company</div>
+          <div class="exp-period">Dec 2006 – Apr 2017 · 10y 5m</div>
+        </div>
+        <div class="exp-role">Business Intelligence Project Lead — LATAM</div>
+        <div class="exp-desc">
+          Over a decade leading BI initiatives across South Latin and Latin Center regions (Argentina, Chile, Peru, Bolivia, Paraguay, Uruguay, Mexico). Spearheaded database migrations (MSSQL 2000 → 2005 → Global), BI tool implementations with QlikView, Value Chain Analysis tool rollout, data unification across countries, and grew the support area from 1 to 4 resources.
+        </div>
+        <div class="tag-row">
+          <span class="tag">MS-SQL</span>
+          <span class="tag">QlikView</span>
+          <span class="tag">.NET</span>
+          <span class="tag">BI</span>
+          <span class="tag">LATAM</span>
+          <span class="tag">Data Migration</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header">
+      <span class="section-tag">03 / Skills</span>
+      <div class="section-line"></div>
+    </div>
+    <h2>Tech Stack</h2>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-icon">⚙️</div>
+        <div class="skill-card-title">Backend</div>
+        <p style="color:var(--muted);font-size:0.88rem">Specialized in high-performance server-side systems and microservices.</p>
+        <div class="skill-card-tags">
+          <span class="tag go">GoLang</span>
+          <span class="tag java">Java</span>
+          <span class="tag java">Spring Boot</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">gRPC</span>
+          <span class="tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🎨</div>
+        <div class="skill-card-title">Frontend</div>
+        <p style="color:var(--muted);font-size:0.88rem">Building modern, type-safe interfaces with component-driven architecture.</p>
+        <div class="skill-card-tags">
+          <span class="tag react">React</span>
+          <span class="tag react">TypeScript</span>
+          <span class="tag">Vite</span>
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🗄️</div>
+        <div class="skill-card-title">Data & Messaging</div>
+        <p style="color:var(--muted);font-size:0.88rem">Experience with both relational and NoSQL databases and async messaging.</p>
+        <div class="skill-card-tags">
+          <span class="tag">MongoDB</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">RabbitMQ</span>
+          <span class="tag">QlikView</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">☁️</div>
+        <div class="skill-card-title">DevOps & Cloud</div>
+        <p style="color:var(--muted);font-size:0.88rem">Containerization, CI/CD and cloud deployment across major providers.</p>
+        <div class="skill-card-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Google Cloud Run</span>
+          <span class="tag">GitLab CI</span>
+          <span class="tag">OKTA</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🤖</div>
+        <div class="skill-card-title">AI & Automation</div>
+        <p style="color:var(--muted);font-size:0.88rem">A lifelong passion — from scripting repetitive tasks years ago to leveraging today's AI leap to compress months of work into days. Through BoostersAI, making this accessible to non-technical teams.</p>
+        <div class="skill-card-tags">
+          <span class="tag">Power Automate</span>
+          <span class="tag">Copilot Studio</span>
+          <span class="tag">N8N</span>
+          <span class="tag">Low-code</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🧑‍🏫</div>
+        <div class="skill-card-title">Leadership & Mentoring</div>
+        <p style="color:var(--muted);font-size:0.88rem">A consistent thread across every role — not just at Teamcubation. Coaching developers, running onboardings, and pushing people toward their potential while respecting work-life balance.</p>
+        <div class="skill-card-tags">
+          <span class="tag">Technical Mentoring</span>
+          <span class="tag">Code Review</span>
+          <span class="tag">Architecture</span>
+          <span class="tag">Team Lead</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-tag">04 / Contact</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-card">
+      <h2>Let's work together</h2>
+      <p>Open to remote opportunities, consulting, and interesting collaborations.<br>Don't hesitate to reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:marquez.damian@outlook.com" class="btn btn-primary">✉ Email Me</a>
+        <a href="https://www.linkedin.com/in/marquez-damian" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Damian Marquez</p>
+  <p>Senior Full Stack Developer · Buenos Aires, Argentina</p>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.exp-item, .skill-card').forEach(el => observer.observe(el));
+
+  // Staggered skill cards
+  document.querySelectorAll('.skill-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.08}s`;
+  });
+</script>
+</body>
+</html>
