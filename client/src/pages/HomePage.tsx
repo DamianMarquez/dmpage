@@ -1,41 +1,29 @@
-import {
-    Button,
-    Container,
-    Typography,
-    Stack
-} from "@mui/material";
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import AboutSection from '../components/AboutSection';
+import ExperienceSection from '../components/ExperienceSection';
+import SkillsSection from '../components/SkillsSection';
+import ContactSection from '../components/ContactSection';
+import Footer from '../components/Footer';
 
-import { Link } from "react-router-dom";
+import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
 
 export default function HomePage() {
+  useIntersectionAnimation('.exp-item, .skill-card');
 
-    return (
-        <Container
-            maxWidth="md"
-            sx={{
-                mt: 10,
-                textAlign: "center"
-            }}
-        >
-            <Stack spacing={4}>
+  return (
+    <>
+      <Navbar />
 
-                <Typography variant="h2">
-                    Hello World 🚀
-                </Typography>
+      <main>
+        <Hero />
+        <AboutSection />
+        <ExperienceSection />
+        <SkillsSection />
+        <ContactSection />
+      </main>
 
-                <Typography variant="h5">
-                    React + Vite + TypeScript + Material UI
-                </Typography>
-
-                <Button
-                    component={Link}
-                    to="/about"
-                    variant="contained"
-                >
-                    Ir a About
-                </Button>
-
-            </Stack>
-        </Container>
-    );
+      <Footer />
+    </>
+  );
 }
