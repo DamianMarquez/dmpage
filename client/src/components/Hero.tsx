@@ -45,14 +45,10 @@ export default function Hero() {
           </div>
   
           <div>
-            <div className="stat-num">6</div>
-            <div className="stat-label">Training waves</div>
+            <div className="stat-num">20+</div>
+            <div className="stat-label">Production Projects</div>
           </div>
   
-          <div>
-            <div className="stat-num">10<span>+</span></div>
-            <div className="stat-label">Years at Coca-Cola LATAM</div>
-          </div>
         </div>
       </section>
     );
