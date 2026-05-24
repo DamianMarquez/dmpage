@@ -10,6 +10,7 @@ export default function Navbar() {
           <li><a href="#experience">Experience</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href="/blog">Blog</a></li>
         </ul>
       </nav>
     );

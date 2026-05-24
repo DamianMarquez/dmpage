@@ -9,6 +9,10 @@ const clientBuildPath = path.join(__dirname, '../client/dist');
 
 app.use(express.static(clientBuildPath));
 
+app.get('/blog', (_, res) => {
+    res.sendFile(path.join(clientBuildPath, 'blog.html'));
+});
+
 app.get('*', (_, res) => {
     res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
