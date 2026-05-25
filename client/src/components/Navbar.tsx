@@ -7,7 +7,7 @@ interface NavbarProps {
   onOpenLogin: () => void;
 }
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Navbar({ user, onOpenLogin }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,6 +25,20 @@ export default function Navbar({ user, onOpenLogin }: NavbarProps) {
   const toggleMenu = () => {
     setMenuOpen((v) => !v);
   };
+
+  useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setMenuOpen(false);
+    }
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
 
   return (
     <nav>
