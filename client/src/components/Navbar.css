@@ -1,0 +1,115 @@
+body {
+  overflow-x: hidden;
+}
+
+/* Navbar styles extracted to component-scoped CSS */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: #0a0a0fcc;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none; align-items: center;
+}
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* Mobile */
+/* =========================
+   Responsive Navbar
+========================= */
+
+.menu-toggle {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  nav {
+    padding: 1rem;
+  }
+
+  /* ocultar menu desktop */
+  .nav-links {
+    display: none;
+  }
+
+  /* mostrar boton menu */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* menu mobile abierto */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+
+    width: calc(100vw - 2rem);
+    max-width: 320px;
+
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(10px);
+
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+
+    box-sizing: border-box;
+  }
+
+  .mobile-menu .nav-user-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  /* Links mobile */
+.mobile-menu a {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.mobile-menu a:hover {
+  color: var(--text);
+}
+.mobile-menu {
+  list-style: none;
+}
+
+
+}
+/* Responsive adjustments will be managed in parent CSS for breakpoint control */
