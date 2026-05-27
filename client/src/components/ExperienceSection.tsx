@@ -1,3 +1,4 @@
+import ButtonLink from './ButtonLink';
 import SectionHeader from './SectionHeader';
 
 interface Experience {
@@ -169,6 +170,7 @@ export default function ExperienceSection() {
 
       </div>
 
+<ButtonLink to="/sections/experience" label="Ver Más" />
     </section>
   );
 }

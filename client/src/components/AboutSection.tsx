@@ -1,4 +1,5 @@
 import SectionHeader from './SectionHeader';
+import ButtonLink from '../components/ButtonLink';
 
 const details = [
   {
@@ -81,6 +82,10 @@ export default function AboutSection() {
             </div>
           ))}
 
+        </div>
+
+        <div style={{ marginTop: '1rem' }}>
+          <ButtonLink to="/sections/about" label="Ver Más" />
         </div>
 
       </div>

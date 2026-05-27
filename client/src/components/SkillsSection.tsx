@@ -1,5 +1,7 @@
 import SectionHeader from './SectionHeader';
 
+import ButtonLink from '../components/ButtonLink';
+
 interface SkillCategory {
   icon: string;
   title: string;
@@ -144,7 +146,9 @@ export default function SkillsSection() {
         ))}
 
       </div>
-
+        <div style={{ marginTop: '1rem' }}>
+          <ButtonLink to="/sections/skills" label="Ver Más" />
+        </div>
     </section>
   );
 }
