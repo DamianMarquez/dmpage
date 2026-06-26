@@ -85,7 +85,7 @@ export default function AboutSection() {
         </div>
 
         <div style={{ marginTop: '1rem' }}>
-          <ButtonLink to="/sections/about" label="Ver Más" />
+          <ButtonLink to="/sections/about" label="See More" />
         </div>
 
       </div>

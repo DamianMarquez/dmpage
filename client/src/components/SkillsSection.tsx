@@ -147,7 +147,7 @@ export default function SkillsSection() {
 
       </div>
         <div style={{ marginTop: '1rem' }}>
-          <ButtonLink to="/sections/skills" label="Ver Más" />
+          <ButtonLink to="/sections/skills" label="See More" />
         </div>
     </section>
   );

@@ -170,7 +170,7 @@ export default function ExperienceSection() {
 
       </div>
 
-<ButtonLink to="/sections/experience" label="Ver Más" />
+<ButtonLink to="/sections/experience" label="See More" />
     </section>
   );
 }
