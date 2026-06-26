@@ -9,10 +9,10 @@ export default function SectionPageTemplate({ sectionTitle }: Props) {
     <section style={{ padding: '2rem', textAlign: 'center' }}>
       <h1>{sectionTitle}</h1>
       <div style={{ fontSize: '1.5rem', margin: '2rem 0' }}>
-        En construcción
+        Under Construction
       </div>
-      <p>La página de esta sección está en desarrollo.</p>
-      <ButtonLink to="/" label="Volver a Inicio" />
+      <p>The page for this section is under development.</p>
+      <ButtonLink to="/" label="Back to Home" />
     </section>
   );
 }
