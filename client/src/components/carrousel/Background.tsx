@@ -59,9 +59,11 @@ export default function Background({
         }}
       />
 
-      {/* Glass */}
-      <div className="relative backdrop-blur-[6px] min-h-full">
-        {children}
+      {/* Glass and centering wrapper to ensure content is centered within the card */}
+      <div className="relative backdrop-blur-[6px] min-h-full w-full flex items-center justify-center">
+        <div className="w-full max-w-4xl px-4">
+          {children}
+        </div>
       </div>
     </motion.div>
   );

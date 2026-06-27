@@ -9,7 +9,7 @@ const companies: Company[] = [
     from: "2019",
     to: "2022",
 
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/57/Globant_Logo.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Globant_Logo.svg",
 
     website: "https://www.globant.com",
 
@@ -86,7 +86,7 @@ const companies: Company[] = [
 
     to: "Actualidad",
 
-    logo: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_Mercado_Libre.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/d/d4/MercadoLibre_logo.PNG",
 
     website: "https://www.mercadolibre.com",
 

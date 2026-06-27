@@ -11,7 +11,7 @@ interface Props {
 
 export default function CompanyHeader({ company }: Props) {
   return (
-    <div className="relative">
+    <div className="relative w-full flex justify-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={company.id}
@@ -19,12 +19,12 @@ export default function CompanyHeader({ company }: Props) {
           initial="initial"
           animate="animate"
           exit="exit"
-        >
+          >
           <Card
             elevation={0}
-            className="rounded-3xl border border-white/40 bg-white/70 backdrop-blur-xl shadow-2xl"
+            className="rounded-3xl border border-white/40 bg-white/70 backdrop-blur-xl shadow-2xl w-full max-w-4xl mx-auto"
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-8 p-8">
+              <div className="flex flex-col md:flex-row md:items-center gap-8 p-8 w-full">
               {/* Logo */}
               <motion.div
                 whileHover={{
@@ -64,7 +64,7 @@ export default function CompanyHeader({ company }: Props) {
               </motion.div>
 
               {/* Información */}
-              <div className="flex-1">
+              <div className="flex-1 w-full max-w-full">
                 <motion.h1
                   layout
                   className="text-4xl font-bold tracking-tight"
