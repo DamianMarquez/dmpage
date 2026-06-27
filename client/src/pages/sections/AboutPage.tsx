@@ -1,26 +1,47 @@
 import "./AboutPage.css";
 import SectionHeader from "../../components/SectionHeader";
+import SectionNavigation from "./SectionNavigation";
 import FloatingBackButton from "../../components/FloatingBackButton";
 
 export default function AboutPage() {
+  const navigationItems = [
+    { id: "hero", label: "Hero" },
+    { id: "intro", label: "Intro" },
+    { id: "my-journey", label: "My Journey" },
+    { id: "transition", label: "Transition" },
+    { id: "what-drives-me", label: "What Drives Me" },
+    { id: "technical-leadership", label: "Leadership" },
+    { id: "mentoring", label: "Mentoring" },
+    { id: "ai-and-automation", label: "AI & Automation" },
+    { id: "philosophy", label: "Philosophy" },
+    { id: "engineering-principles", label: "Principles" },
+    { id: "technologies", label: "Technologies" },
+    { id: "looking-ahead", label: "Looking Ahead" },
+    { id: "final-quote", label: "Final Quote" }
+  ];
+
   return (
-    <section id="about-page" className="page-section">
+  <section id="about-page" >
 
-      {/* Floating back-to-home button fixed to the top of the viewport */}
-      <div className="floating-back-top-wrap" aria-label="Back to Home">
-        <FloatingBackButton to="/" label="Back to Home" />
-      </div>
+    <FloatingBackButton
+      to="/"
+      label="Back to Home"
+    />
 
-      <SectionHeader
-        index="01"
-        title="More About Me"
-      />
+    <SectionHeader
+      index="01"
+      title="More About Me"
+    />
 
-      <div className="about-page">
+    <div className="about-layout">
+
+      <SectionNavigation items={navigationItems} />
+
+      <main className="about-page">
 
         {/* ---------------- HERO ---------------- */}
 
-        <header className="about-hero">
+        <header className="about-hero" id="hero">
 
           <span className="about-eyebrow">
             Software Engineer • Solution Architect • Technical Mentor
@@ -43,7 +64,7 @@ export default function AboutPage() {
 
         {/* ---------------- INTRO ---------------- */}
 
-        <section className="about-intro">
+        <section className="about-intro" id="intro">
 
           <p>
             I wrote my first lines of code when I was
@@ -74,7 +95,7 @@ export default function AboutPage() {
 
         {/* ---------------- MY JOURNEY ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="my-journey">
 
           <div className="block-title">
             <span>01</span>
@@ -129,7 +150,7 @@ export default function AboutPage() {
 
         {/* ---------------- TRANSITION ---------------- */}
 
-        <section className="about-highlight">
+        <section className="about-highlight" id="transition">
 
           <h2>
             The longer I work in software,
@@ -149,7 +170,7 @@ export default function AboutPage() {
 
                 {/* ---------------- WHAT DRIVES ME ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="what-drives-me">
 
           <div className="block-title">
             <span>02</span>
@@ -224,7 +245,7 @@ export default function AboutPage() {
 
         {/* ---------------- TECHNICAL LEADERSHIP ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="technical-leadership">
 
           <div className="block-title">
             <span>03</span>
@@ -267,7 +288,7 @@ export default function AboutPage() {
 
         {/* ---------------- MENTORING ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="mentoring">
 
           <div className="block-title">
             <span>04</span>
@@ -313,7 +334,7 @@ export default function AboutPage() {
 
         {/* ---------------- AI & AUTOMATION ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="ai-and-automation">
 
           <div className="block-title">
             <span>05</span>
@@ -356,7 +377,7 @@ export default function AboutPage() {
 
         {/* ---------------- PHILOSOPHY ---------------- */}
 
-        <section className="about-philosophy">
+        <section className="about-philosophy" id="philosophy">
 
           <h2>My Engineering Philosophy</h2>
 
@@ -380,7 +401,7 @@ export default function AboutPage() {
 
         {/* ---------------- ENGINEERING PRINCIPLES ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="engineering-principles">
 
           <div className="block-title">
             <span>06</span>
@@ -435,7 +456,7 @@ export default function AboutPage() {
 
         {/* ---------------- TECHNOLOGIES ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="technologies">
 
           <div className="block-title">
             <span>07</span>
@@ -486,7 +507,7 @@ export default function AboutPage() {
 
         {/* ---------------- LOOKING AHEAD ---------------- */}
 
-        <section className="about-block">
+        <section className="about-block" id="looking-ahead">
 
           <div className="block-title">
             <span>08</span>
@@ -531,7 +552,7 @@ export default function AboutPage() {
 
         {/* ---------------- FINAL QUOTE ---------------- */}
 
-        <section className="about-closing">
+        <section className="about-closing" id="final-quote">
 
           <blockquote>
 
@@ -545,11 +566,12 @@ export default function AboutPage() {
             and how well it stands the test of time.
 
           </blockquote>
+ </section>
 
-        </section>
+</main>
 
-      </div>
+    </div>
 
-    </section>
+  </section>
   );
 }
