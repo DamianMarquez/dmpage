@@ -1,149 +1,80 @@
 .section-navigation {
-
-    width: 220px;
-
-    position: sticky;
-
-    top: 120px;
-
+  width: 220px;
+  position: sticky;
+  top: 120px;
 }
 
 .navigation-title {
-
-    display: block;
-
-    margin-bottom: 2rem;
-
-    font-size: .75rem;
-
-    text-transform: uppercase;
-
-    letter-spacing: .2em;
-
-    opacity: .45;
-
+  display: block;
+  margin-bottom: 2rem;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  opacity: .45;
 }
 
 .section-navigation ul {
-
-    list-style: none;
-
-    margin: 0;
-
-    padding: 0 1.25rem 0 0;
-
-    position: relative;
-
+  list-style: none;
+  margin: 0;
+  padding: 0 1.25rem 0 0;
+  position: relative;
 }
 
 .section-navigation ul::before {
-
-    content: "";
-
-    position: absolute;
-
-    right: 4px;
-
-    top: 0;
-
-    bottom: 0;
-
-    width: 2px;
-
-    background: rgba(255,255,255,.08);
-
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255,255,255,.08);
 }
 
 .section-navigation li {
-
-    position: relative;
-
-    margin-bottom: 1.25rem;
-
-    text-align: right;
-
+  position: relative;
+  margin-bottom: 1.25rem;
+  text-align: right;
 }
 
 .section-navigation li::before {
-
-    content: "";
-
-    position: absolute;
-
-    right: -18px;
-
-    top: 11px;
-
-    width: 10px;
-
-    height: 10px;
-
-    border-radius: 50%;
-
-    background: #666;
-
-    transition: .25s;
-
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #666;
+  transition: .25s;
 }
 
 .section-navigation li.active::before {
-
-    background: var(--accent);
-
-    transform: scale(1.4);
-
-    box-shadow: 0 0 0 6px rgba(255,255,255,.05);
-
+  background: var(--accent);
+  transform: scale(1.4);
+  box-shadow: 0 0 12px var(--accent);
 }
 
 .section-navigation a {
-
-    display: block;
-
-    color: inherit;
-
-    text-decoration: none;
-
-    opacity: .45;
-
-    transition: .25s;
-
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  opacity: .45;
+  transition: .25s;
 }
 
 .section-navigation li.active a {
-
-    opacity: 1;
-
-    color: var(--accent);
-
-    transform: translateX(-8px);
-
+  opacity: 1;
+  color: var(--accent);
+  transform: translateX(-8px);
 }
 
 .section-navigation a:hover {
-
-    opacity: 1;
-
-}
-
-@media (max-width: 1400px) {
-
-    .section-navigation {
-
-        right: 1rem;
-
-        width: 200px;
-
-    }
-
+  opacity: 1;
 }
 
 @media (max-width: 1200px) {
-
-    .section-navigation {
-
-        display: none;
-
-    }
-
+  /* Hide navigation on narrower layouts to allow content to center */
+  .section-navigation {
+    display: none;
+  }
 }

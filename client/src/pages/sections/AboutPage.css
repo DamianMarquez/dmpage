@@ -357,3 +357,61 @@
     }
 
 }
+
+/* Mobile: center content and stretch to full width while keeping readable max widths for inner blocks */
+@media (max-width: 768px) {
+    .about-layout {
+        grid-template-columns: 1fr; /* Collapse to a single column */
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        gap: 2rem;
+        justify-items: center;
+        align-items: start;
+    }
+
+    /* Center content area and let it occupy available width */
+    .about-page {
+        width: 100%;
+        display: grid;
+        place-items: center;
+        gap: 4rem;
+        text-align: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Make inner blocks full width but keep readable max width and left-aligned text inside blocks */
+    .about-page > * {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: left;
+    }
+}
+
+/* Ensure that when the navigation is hidden (narrow widths), the About content centers and uses full width */
+@media (max-width: 1200px) {
+  .about-layout {
+    grid-template-columns: 1fr; /* single column when nav is hidden */
+    place-items: center;
+  }
+
+  .about-page {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    gap: 4rem;
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Make inner blocks full width but keep readable max width and left-aligned text inside blocks */
+  .about-page > * {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+  }
+}
