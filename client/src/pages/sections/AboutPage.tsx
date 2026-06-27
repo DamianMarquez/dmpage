@@ -1,88 +1,549 @@
-import SectionPageTemplate from '../SectionPageTemplate';
+import "./AboutPage.css";
+import SectionHeader from "../../components/SectionHeader";
 
 export default function AboutPage() {
   return (
-    <SectionPageTemplate sectionTitle="About">
-      <h2>More About Me</h2>
-      <p>
-        Software development has been part of my professional life for more than 18 years, but for me it's never been just about writing code. I've always believed that technology is a tool to solve real business problems, improve people's work, and create solutions that remain valuable long after the first release.
-      </p>
-      <p>
-        Throughout my career I've had the opportunity to work in companies of very different sizes, from global enterprises to consulting firms and growing organizations. That experience allowed me to understand that every project is unique. There isn't a single architecture, framework, or programming language that solves every problem. Choosing the right solution requires understanding the business, the people, and the long-term goals.
-      </p>
-      <p>
-        Today I work primarily as a Senior Software Engineer, focusing on backend development, distributed systems, cloud-native applications, and solution architecture. Most of my recent work has been built using Go, Java, Spring Boot, Node.js, React, and TypeScript, but I consider technologies to be tools rather than objectives. My priority is always building systems that are scalable, maintainable, reliable, and easy for teams to evolve.
-      </p>
+    <section id="about-page" className="page-section">
 
-      <h3>Building Software That Lasts</h3>
-      <p>One principle has guided me throughout my career: software should become easier to maintain over time, not harder.</p>
-      <p>I enjoy designing clean architectures, defining clear boundaries between services, simplifying complex business logic, and creating development practices that allow teams to move faster without sacrificing quality.</p>
-      <p>I've participated in projects involving:</p>
-      <ul>
-        <li>Enterprise platforms</li>
-        <li>Microservices and distributed systems</li>
-        <li>Backend APIs</li>
-        <li>Full-stack web applications</li>
-        <li>Internal business tools</li>
-        <li>Process automation</li>
-        <li>Cloud-based solutions</li>
-        <li>Multi-database synchronization</li>
-        <li>Event-driven architectures</li>
-        <li>Risk analysis platforms</li>
-        <li>AI-assisted automation</li>
-      </ul>
-      <p>What motivates me the most isn't the technology itself—it's solving difficult problems with elegant solutions.</p>
+      <SectionHeader
+        index="01"
+        title="More About Me"
+      />
 
-      <h3>Technical Leadership</h3>
-      <p>As my career progressed, I naturally moved into technical leadership roles.</p>
-      <p>For me, leadership isn't about making every decision. It's about creating an environment where other developers can make good decisions on their own.</p>
-      <p>I've led development teams, coordinated technical initiatives, reviewed architecture, participated in hiring processes, and helped define engineering standards that improved both productivity and software quality.</p>
-      <p>One of the things I value most is communication. Many software problems aren't technical—they're communication problems disguised as technical ones. Helping teams understand each other is often just as important as designing a good architecture.</p>
+      <div className="about-page">
 
-      <h3>Mentoring Developers</h3>
-      <p>One of the most rewarding experiences in my career has been mentoring new developers.</p>
-      <p>Over several years I designed and led internal training programs that helped more than 36 junior developers grow into productive engineers through real-world projects rather than isolated exercises.</p>
-      <p>The goal wasn't simply teaching programming languages. It was teaching how professional software is actually built.</p>
-      <p>That included topics such as:</p>
-      <ul>
-        <li>Software architecture</li>
-        <li>Clean Code</li>
-        <li>Design patterns</li>
-        <li>API design</li>
-        <li>Code reviews</li>
-        <li>Team collaboration</li>
-        <li>Git workflows</li>
-        <li>Backend development</li>
-        <li>Frontend development</li>
-        <li>Testing</li>
-        <li>Debugging</li>
-        <li>Problem solving</li>
-        <li>Technical communication</li>
-      </ul>
-      <p>Watching someone gain confidence as an engineer is one of the most satisfying parts of my work.</p>
+        {/* ---------------- HERO ---------------- */}
 
-      <h3>Continuous Learning</h3>
-      <p>Technology evolves constantly, and I enjoy evolving with it.</p>
-      <p>In recent years I've explored AI-powered development, automation platforms, and low-code solutions that help organizations increase productivity without sacrificing software quality.</p>
-      <p>I've worked with tools like Microsoft Power Automate, Copilot Studio, N8N, and several AI-assisted workflows, always with the same objective: using technology to eliminate repetitive work and allow people to focus on solving meaningful problems.</p>
-      <p>Learning isn't something I do only when a project requires it—it's part of how I work every day.</p>
+        <header className="about-hero">
 
-      <h3>Beyond the Code</h3>
-      <p>I believe that successful software projects depend on much more than technical knowledge.</p>
-      <p>Empathy, communication, curiosity, and responsibility are just as important as knowing a programming language.</p>
-      <p>I enjoy collaborating with product owners, designers, business stakeholders, and developers alike because the best solutions usually emerge from different perspectives working together.</p>
-      <p>Whether I'm designing a new architecture, reviewing pull requests, mentoring developers, or discussing product requirements, I try to approach every challenge with the same mindset:</p>
-      <ul>
-        <li>Understand the problem first.</li>
-        <li>Build the simplest solution that solves it.</li>
-        <li>Leave the project in a better state than I found it.</li>
-      </ul>
+          <span className="about-eyebrow">
+            Software Engineer • Solution Architect • Technical Mentor
+          </span>
 
-      <h3>Looking Forward</h3>
-      <p>I'm always interested in projects that combine technical challenges with opportunities to make a meaningful impact.</p>
-      <p>Whether that's designing scalable architectures, mentoring engineering teams, modernizing existing systems, or exploring how AI can improve software development, I'm motivated by building solutions that people can trust and teams can proudly maintain.</p>
-      <p>For me, great software isn't measured by the number of technologies involved.</p>
-      <p>It's measured by the value it creates, the people it empowers, and how well it stands the test of time.</p>
-    </SectionPageTemplate>
+          <h1>
+            Building software,
+            <br />
+            growing people.
+          </h1>
+
+          <p className="hero-description">
+            Software engineering has never been just a profession for me.
+            It's how I solve problems, simplify complexity, help teams grow,
+            and transform ideas into products that continue creating value long
+            after they're released.
+          </p>
+
+        </header>
+
+        {/* ---------------- INTRO ---------------- */}
+
+        <section className="about-intro">
+
+          <p>
+            I wrote my first lines of code when I was
+            <strong> 15 years old</strong>.
+            At that time I wasn't thinking about a career—I was simply fascinated
+            by the idea of making computers perform tasks automatically.
+            That curiosity eventually became a profession, but more importantly,
+            it became a mindset that still drives me today.
+          </p>
+
+          <p>
+            After more than
+            <strong> 18 years of professional experience</strong>,
+            I've had the opportunity to work in consulting firms,
+            enterprise organizations, mobility platforms, business intelligence,
+            and cloud-native environments.
+            Every project, every team, and every challenge has reinforced one
+            simple idea:
+          </p>
+
+          <blockquote className="about-quote">
+            Great software isn't built by choosing the newest technology.
+            It's built by understanding people, solving the right problem,
+            and designing solutions that teams can confidently maintain.
+          </blockquote>
+
+        </section>
+
+        {/* ---------------- MY JOURNEY ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>01</span>
+            <h2>My Journey</h2>
+          </div>
+
+          <div className="block-content">
+
+            <p>
+              Throughout my career I've never wanted to become "the Go developer"
+              or "the Java developer." Technologies evolve constantly.
+              What remains valuable is understanding how software should be
+              designed, how teams collaborate, and how technology can support
+              business objectives.
+            </p>
+
+            <p>
+              That perspective has allowed me to comfortably move between
+              backend development, frontend applications, distributed systems,
+              cloud platforms, automation projects, solution architecture,
+              and technical leadership without losing sight of what truly matters:
+              delivering value.
+            </p>
+
+            <p>
+              I've contributed to enterprise platforms serving thousands of users,
+              built microservices from scratch, modernized legacy applications,
+              designed internal development tools, automated business processes,
+              integrated multiple systems, and participated in architectural
+              decisions that shaped long-term products.
+            </p>
+
+            <p>
+              While I genuinely enjoy writing code, I've discovered that some of
+              my most rewarding work happens before a single line is written:
+              understanding the business, identifying unnecessary complexity,
+              challenging assumptions, and helping teams build simpler,
+              more sustainable solutions.
+            </p>
+
+            <p>
+              That's one of the reasons architecture became a natural evolution
+              of my career. Good architecture isn't about creating complex
+              diagrams or introducing sophisticated patterns.
+              It's about making future development easier, reducing uncertainty,
+              and allowing teams to evolve software with confidence.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- TRANSITION ---------------- */}
+
+        <section className="about-highlight">
+
+          <h2>
+            The longer I work in software,
+            <br />
+            the more convinced I become that technology
+            is only part of the equation.
+          </h2>
+
+          <p>
+            Communication, curiosity, mentoring, and continuous learning are
+            what truly transform good engineers into great ones.
+            Those values have shaped not only the systems I've built,
+            but also the teams I've had the privilege to work with.
+          </p>
+
+        </section>
+
+                {/* ---------------- WHAT DRIVES ME ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>02</span>
+            <h2>What Drives Me</h2>
+          </div>
+
+          <div className="cards-grid">
+
+            <article className="about-card">
+
+              <div className="card-icon">🏗</div>
+
+              <h3>Architecture</h3>
+
+              <p>
+                I enjoy designing systems that remain understandable years after
+                they are deployed. Good architecture isn't about adding layers
+                or complexity—it's about making software easier to evolve,
+                easier to maintain, and easier for new developers to understand.
+              </p>
+
+            </article>
+
+            <article className="about-card">
+
+              <div className="card-icon">👥</div>
+
+              <h3>Mentoring</h3>
+
+              <p>
+                Watching developers grow has become one of the most rewarding
+                parts of my career. Sharing knowledge, reviewing code,
+                discussing architecture, and helping others gain confidence is
+                something I genuinely enjoy every day.
+              </p>
+
+            </article>
+
+            <article className="about-card">
+
+              <div className="card-icon">🤖</div>
+
+              <h3>Automation & AI</h3>
+
+              <p>
+                I've always been passionate about eliminating repetitive work.
+                Today, AI and automation provide incredible opportunities to
+                increase productivity, allowing people to spend less time on
+                manual tasks and more time solving meaningful problems.
+              </p>
+
+            </article>
+
+            <article className="about-card">
+
+              <div className="card-icon">📚</div>
+
+              <h3>Continuous Learning</h3>
+
+              <p>
+                Technology evolves constantly, and curiosity has always been one
+                of my greatest strengths. Learning new tools, experimenting with
+                different approaches, and continuously improving is simply part
+                of how I work.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- TECHNICAL LEADERSHIP ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>03</span>
+            <h2>Technical Leadership</h2>
+          </div>
+
+          <div className="block-content">
+
+            <p>
+              Over the years I naturally transitioned from being focused only on
+              implementation to helping teams make better technical decisions.
+              Leadership, for me, isn't about having all the answers—it's about
+              creating an environment where everyone can contribute their best
+              work.
+            </p>
+
+            <p>
+              I've participated in architectural planning, technical roadmaps,
+              code reviews, onboarding processes, engineering standards,
+              technical interviews, and cross-team collaboration.
+            </p>
+
+            <p>
+              One lesson I've learned repeatedly is that many software problems
+              aren't actually technical. They're communication problems,
+              expectation problems, or process problems disguised as technical
+              issues.
+            </p>
+
+            <p>
+              That's why I value clear communication just as much as clean code.
+              The best engineering teams aren't necessarily the ones with the
+              smartest developers—they're the ones that communicate effectively,
+              collaborate openly, and continuously learn from each other.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- MENTORING ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>04</span>
+            <h2>Mentoring Developers</h2>
+          </div>
+
+          <div className="block-content">
+
+            <p>
+              Mentoring has become one of the defining aspects of my career.
+              During the last few years I've designed and led multiple training
+              programs that helped new developers transition from entry-level
+              engineers into confident professionals working on real production
+              projects.
+            </p>
+
+            <p>
+              Across six mentoring waves, I've worked closely with more than
+              <strong> 36 developers</strong>, guiding them through software
+              architecture, backend development, frontend technologies,
+              debugging, clean code practices, code reviews, Git workflows,
+              technical communication, and professional growth.
+            </p>
+
+            <p>
+              My objective has never been simply teaching programming
+              languages. I prefer teaching how professional software is actually
+              built: understanding requirements, collaborating with teammates,
+              making pragmatic decisions, and writing code that someone else
+              will be happy to maintain.
+            </p>
+
+            <p>
+              Nothing is more satisfying than seeing someone who once struggled
+              with the basics become the developer others turn to for advice.
+              Helping people reach that point is one of the reasons I enjoy this
+              profession so much.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- AI & AUTOMATION ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>05</span>
+            <h2>AI & Automation</h2>
+          </div>
+
+          <div className="block-content">
+
+            <p>
+              Automation has always been part of the way I think. Long before
+              AI became mainstream, I was already looking for ways to eliminate
+              repetitive tasks and simplify processes through software.
+            </p>
+
+            <p>
+              Today, artificial intelligence has accelerated that vision.
+              Rather than replacing developers, I believe AI empowers engineers
+              to focus on creativity, architecture, and solving complex
+              business problems while delegating repetitive work to intelligent
+              tools.
+            </p>
+
+            <p>
+              Through initiatives such as BoostersAI, I've also helped
+              professionals outside the software industry discover how AI,
+              automation platforms, and low-code solutions can dramatically
+              improve their daily work without requiring deep technical
+              knowledge.
+            </p>
+
+            <p>
+              For me, AI isn't the destination. It's another tool that allows
+              us to build better products, learn faster, and create more value
+              for people.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- PHILOSOPHY ---------------- */}
+
+        <section className="about-philosophy">
+
+          <h2>My Engineering Philosophy</h2>
+
+          <blockquote>
+
+            <p>
+              Understand the problem first.
+            </p>
+
+            <p>
+              Build the simplest solution that solves it.
+            </p>
+
+            <p>
+              Leave the project better than you found it.
+            </p>
+
+          </blockquote>
+
+        </section>
+
+        {/* ---------------- ENGINEERING PRINCIPLES ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>06</span>
+            <h2>Engineering Principles</h2>
+          </div>
+
+          <div className="principles-grid">
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Simplicity always beats unnecessary complexity.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Code is read far more often than it is written.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Architecture exists to help teams move faster—not slower.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Automation is an investment, not a luxury.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Communication solves more problems than frameworks.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Mentoring multiplies the impact of great engineers.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Technology should solve business problems—not create new ones.</p>
+            </div>
+
+            <div className="principle-item">
+              <span>✔</span>
+              <p>Never stop learning. Curiosity is part of the profession.</p>
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- TECHNOLOGIES ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>07</span>
+            <h2>Technologies I Enjoy Working With</h2>
+          </div>
+
+          <div className="tech-tags">
+
+            {[
+              "Go",
+              "Java",
+              "Spring Boot",
+              "Node.js",
+              "React",
+              "TypeScript",
+              "Docker",
+              "RabbitMQ",
+              "MongoDB",
+              "PostgreSQL",
+              "MySQL",
+              "Redis",
+              "REST APIs",
+              "Microservices",
+              "Hexagonal Architecture",
+              "Cloud Native",
+              "Git",
+              "CI/CD",
+              "Power Automate",
+              "Copilot Studio",
+              "N8N",
+              "AI Automation",
+              "Solution Architecture",
+              "Technical Mentoring"
+            ].map((tech) => (
+
+              <span
+                key={tech}
+                className="tech-chip"
+              >
+                {tech}
+              </span>
+
+            ))}
+
+          </div>
+
+        </section>
+
+        {/* ---------------- LOOKING AHEAD ---------------- */}
+
+        <section className="about-block">
+
+          <div className="block-title">
+            <span>08</span>
+            <h2>Looking Ahead</h2>
+          </div>
+
+          <div className="block-content">
+
+            <p>
+              After almost two decades in software engineering,
+              what motivates me hasn't really changed.
+            </p>
+
+            <p>
+              I still enjoy solving difficult problems,
+              building reliable software,
+              mentoring developers,
+              learning new technologies,
+              and finding better ways to help teams create products
+              that make a real difference.
+            </p>
+
+            <p>
+              Today I'm particularly interested in solution architecture,
+              distributed systems, AI-assisted development,
+              developer experience,
+              automation,
+              and building engineering cultures where people can do
+              their best work.
+            </p>
+
+            <p>
+              I don't believe great software is created by individuals.
+              It's created by teams that trust each other,
+              communicate openly,
+              and continuously improve together.
+            </p>
+
+          </div>
+
+        </section>
+
+        {/* ---------------- FINAL QUOTE ---------------- */}
+
+        <section className="about-closing">
+
+          <blockquote>
+
+            Great software isn't measured by the number of technologies it uses.
+
+            <br />
+            <br />
+
+            It's measured by the value it creates,
+            the people it empowers,
+            and how well it stands the test of time.
+
+          </blockquote>
+
+        </section>
+
+      </div>
+
+    </section>
   );
 }
