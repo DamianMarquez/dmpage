@@ -1,0 +1,78 @@
+.floating-back-top-wrap {
+
+    position: fixed;
+
+    top: 72px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+
+    pointer-events: none;
+
+    z-index: 999;
+
+    transition:
+        opacity .35s ease,
+        transform .35s ease;
+
+}
+
+.floating-back-top-wrap.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+.floating-back-top-wrap.hide{
+
+    opacity:0;
+
+    transform:translateY(-25px);
+
+}
+
+.floating-back-button{
+
+    pointer-events:auto;
+
+    padding:.85rem 1.5rem;
+
+    border-radius:999px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    background:rgba(20,20,20,.75);
+
+    backdrop-filter:blur(12px);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.25s;
+
+}
+
+.floating-back-button:hover{
+
+    transform:translateY(-2px);
+
+    border-color:var(--accent);
+
+}
+
+@media(max-width:768px){
+
+    .floating-back-top-wrap{
+
+        top:60px;
+
+    }
+
+}
