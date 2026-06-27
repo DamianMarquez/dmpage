@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import LoginModal from '../components/LoginModal';
 
 import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
+import Ejemplo from '../components/carrousel/ejemplo';
 
 export default function HomePage() {
   useIntersectionAnimation('.exp-item, .skill-card');
@@ -46,6 +47,7 @@ export default function HomePage() {
         <ExperienceSection />
         <SkillsSection />
         <ContactSection />
+        <Ejemplo/>
       </main>
 
       <Footer />

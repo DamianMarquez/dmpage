@@ -2,9 +2,7 @@
   width: 220px;
   position: sticky;
   top: 120px;
-}
-
-.navigation-title {
+  transition: width 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
   display: block;
   margin-bottom: 2rem;
   font-size: .75rem;
@@ -72,9 +70,15 @@
   opacity: 1;
 }
 
-@media (max-width: 1200px) {
-  /* Hide navigation on narrower layouts to allow content to center */
+@media (max-width: 1024px) {
+  /* Hide navigation with animation */
   .section-navigation {
-    display: none;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+    overflow: hidden;
+    pointer-events: none;
   }
 }
