@@ -1,3 +1,11 @@
+/* Floating Back to Home button wrapper */
+.floating-back-top-wrap {
+  position: fixed; top: 64px; left: 0; right: 0; z-index: 9999;
+  display: flex; justify-content: center; padding: 0.5rem 0; background: rgba(0,0,0,0.0);
+}
+@media (max-width: 768px) {
+  .floating-back-top-wrap { top: 56px; }
+}
 :root {
     --bg: #0a0a0f;
     --surface: #111118;

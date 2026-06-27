@@ -1,9 +1,15 @@
 import "./AboutPage.css";
 import SectionHeader from "../../components/SectionHeader";
+import ButtonLink from '../../components/ButtonLink';
 
 export default function AboutPage() {
   return (
     <section id="about-page" className="page-section">
+
+      {/* Floating back-to-home button fixed to the top of the viewport */}
+      <div className="floating-back-top-wrap" aria-label="Back to Home">
+        <ButtonLink to="/" label="Back to Home" />
+      </div>
 
       <SectionHeader
         index="01"
