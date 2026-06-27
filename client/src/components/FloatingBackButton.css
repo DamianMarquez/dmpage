@@ -47,11 +47,11 @@
 
     font-weight:600;
 
-    background:rgba(20,20,20,.75);
+    background:var(--accent);;
 
     backdrop-filter:blur(12px);
 
-    color:white;
+    color:black;
 
     border:1px solid rgba(255,255,255,.08);
 
