@@ -1,0 +1,340 @@
+.experience-page {
+  min-height: 100vh;
+  padding-top: 3rem;
+}
+
+.experience-carousel-section {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 1rem;
+  touch-action: pan-y;
+}
+
+.experience-background {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  color: var(--text);
+}
+
+.experience-background-glow,
+.experience-background-pattern {
+  position: absolute;
+  pointer-events: none;
+}
+
+.experience-background-glow {
+  border-radius: 999px;
+  filter: blur(3rem);
+}
+
+.experience-background-glow-top {
+  top: -8rem;
+  left: -8rem;
+  width: 20rem;
+  height: 20rem;
+  opacity: .25;
+}
+
+.experience-background-glow-bottom {
+  right: -10rem;
+  bottom: -10rem;
+  width: 24rem;
+  height: 24rem;
+  opacity: .2;
+}
+
+.experience-background-pattern {
+  inset: 0;
+  opacity: .03;
+}
+
+.experience-background-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  backdrop-filter: blur(6px);
+}
+
+.experience-background-inner {
+  width: 100%;
+  max-width: 70rem;
+  padding: 3rem;
+}
+
+.experience-carousel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.experience-carousel-title {
+  margin: 0;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.05;
+}
+
+.experience-carousel-intro {
+  max-width: 42rem;
+  margin: .75rem 0 0;
+  color: var(--muted);
+  font-size: 1.125rem;
+}
+
+.company-timeline,
+.project-timeline {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.company-timeline::-webkit-scrollbar,
+.project-timeline::-webkit-scrollbar {
+  display: none;
+}
+
+.company-timeline-scroll,
+.project-timeline-scroll {
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  min-width: 100%;
+  padding: 1rem .5rem;
+}
+
+.company-timeline-item,
+.project-timeline-item {
+  display: flex;
+  align-items: flex-start;
+  flex: 0 0 auto;
+}
+
+.company-timeline-button,
+.project-timeline-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.company-timeline-button {
+  width: 9rem;
+}
+
+.project-timeline-button {
+  width: 9rem;
+}
+
+.company-timeline-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  border: 4px solid;
+  border-radius: 999px;
+  background: rgb(248 250 252 / 92%);
+  box-shadow: 0 0.25rem .75rem rgb(15 23 42 / 18%);
+}
+
+.company-timeline-logo-image {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.company-timeline-logo-fallback,
+.company-header-logo-fallback {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.company-header-logo-fallback { font-size: clamp(1.75rem, 5vw, 3rem); }
+
+.company-timeline-name,
+.project-timeline-name {
+  margin-top: .75rem;
+  color: #c9c9d8;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: center;
+}
+
+.company-timeline-period,
+.project-timeline-period {
+  margin-top: .25rem;
+  color: #9ca3af;
+  font-size: .75rem;
+  line-height: 1rem;
+}
+
+.company-timeline-connector,
+.project-timeline-connector {
+  position: relative;
+  flex: 0 0 auto;
+  height: .25rem;
+  margin: 1.375rem .5rem 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 12%);
+}
+
+.company-timeline-connector { width: 6rem; }
+.project-timeline-connector { width: 5rem; margin-top: .625rem; }
+
+.company-timeline-connector-progress,
+.project-timeline-connector-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.company-header-wrapper { width: 100%; }
+
+.company-header-card,
+.project-card {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 1.5rem;
+  background: rgb(17 17 24 / 78%);
+  box-shadow: 0 1.25rem 2.5rem rgb(0 0 0 / 28%);
+  backdrop-filter: blur(1rem);
+}
+
+.company-header-content {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem;
+}
+
+.company-header-logo-column { display: flex; justify-content: center; }
+
+.company-header-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(5rem, 14vw, 9rem);
+  height: clamp(5rem, 14vw, 9rem);
+  overflow: hidden;
+  border-radius: 1.25rem;
+  box-shadow: 0 .5rem 1.25rem rgb(15 23 42 / 16%);
+}
+
+.company-header-logo {
+  display: block;
+  width: 78%;
+  height: 78%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.company-header-info { min-width: 0; }
+
+.company-header-company,
+.company-header-role,
+.company-header-period { margin: 0; }
+
+.company-header-company {
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.company-header-role {
+  margin-top: .5rem;
+  color: #d2d2df;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.company-header-period {
+  margin-top: 1rem;
+  color: var(--muted);
+}
+
+.company-header-website {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.25rem;
+  font-size: .875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.company-header-side-band { align-self: stretch; display: flex; }
+.company-header-side-band-fill { width: .5rem; border-radius: 999px; }
+
+.experience-progress { width: 100%; padding: .5rem 1rem; }
+.experience-progress-header { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .5rem; }
+.experience-progress-label { color: var(--text); font-size: .875rem; font-weight: 600; }
+.experience-progress-value { color: var(--muted); font-size: .75rem; }
+
+.project-card-content { padding: 2rem; }
+.project-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.project-card-heading { min-width: 0; }
+.project-card-title { margin: 0; color: var(--text); font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.1; }
+.project-card-subtitle { margin: .25rem 0 0; color: #c9c9d8; font-size: 1.125rem; }
+.project-card-period { margin: .75rem 0 0; color: var(--muted); font-size: .875rem; }
+.project-card-links { display: flex; flex-wrap: wrap; gap: .25rem; flex: 0 0 auto; }
+.project-card-description { margin: 1.5rem 0 0; color: #d0d0dc; line-height: 1.8; white-space: pre-line; }
+.project-card-achievements-heading { display: flex; align-items: center; gap: .5rem; margin: 2rem 0 1rem; }
+.project-card-section-title { margin: 0; color: var(--text); font-size: 1.125rem; font-weight: 700; }
+.project-card-achievements { display: flex; flex-direction: column; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+.project-card-achievement { display: flex; gap: .75rem; color: #d0d0dc; }
+.project-card-achievement-dot { flex: 0 0 auto; width: .5rem; height: .5rem; margin-top: .6rem; border-radius: 999px; }
+.project-card-technologies { margin-top: 2.5rem; }
+.project-card-tech-list { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.project-card-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+.project-card-image { display: block; width: 100%; max-width: 100%; max-height: 28rem; min-width: 0; border-radius: .75rem; object-fit: cover; box-shadow: 0 .5rem 1rem rgb(15 23 42 / 14%); }
+
+.experience-navigation { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .5rem; }
+.experience-navigation-group { display: flex; align-items: center; gap: .5rem; }
+.experience-navigation-help { display: flex; align-items: center; gap: .75rem; color: var(--muted); font-size: .875rem; }
+
+@media (max-width: 768px) {
+  .experience-carousel-section { padding: 2rem .5rem; }
+  .experience-background-inner { padding: 1.25rem .75rem; }
+  .experience-carousel-content { gap: 1.5rem; }
+  .company-header-content { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.25rem; text-align: center; }
+  .company-header-logo-column { justify-content: center; }
+  .company-header-side-band { display: none; }
+  .company-header-website { justify-content: center; }
+  .project-card-content { padding: 1.25rem; }
+  .project-card-header { flex-direction: column; }
+  .project-card-links { align-self: flex-end; }
+  .project-card-images { grid-template-columns: 1fr; }
+  .experience-navigation { flex-wrap: wrap; justify-content: center; }
+  .experience-navigation-help { display: none; }
+}
+
+@media (max-width: 480px) {
+  .company-timeline-button { width: 7.5rem; }
+  .company-timeline-connector { width: 3rem; }
+  .project-timeline-button { width: 7.5rem; }
+  .project-timeline-connector { width: 3rem; }
+  .experience-navigation-group { width: 100%; justify-content: center; }
+}

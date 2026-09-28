@@ -70,7 +70,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         console.error('Error de Supabase Auth:', error.message);
         alert(`Error al iniciar sesión: ${error.message}`);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error de conexión con Supabase:', err);
     }
   };

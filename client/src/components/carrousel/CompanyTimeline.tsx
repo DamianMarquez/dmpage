@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import  type{ Company } from "./types";
+import LogoImage from "./LogoImage";
 
 interface Props {
   companies: Company[];
@@ -13,8 +14,8 @@ export default function CompanyTimeline({
   onSelect,
 }: Props) {
   return (
-    <div className="w-full py-6">
-      <div className="flex items-center overflow-x-auto scrollbar-hide px-4">
+    <div className="company-timeline">
+      <div className="company-timeline-scroll">
         {companies.map((company, index) => {
           const active = index === currentIndex;
           const visited = index < currentIndex;
@@ -22,11 +23,11 @@ export default function CompanyTimeline({
           return (
             <div
               key={company.id}
-              className="flex items-center flex-shrink-0"
+              className="company-timeline-item"
             >
               <button
                 onClick={() => onSelect(index)}
-                className="group flex flex-col items-center min-w-[140px]"
+                className="company-timeline-button"
               >
                 {/* Círculo */}
                 <motion.div
@@ -42,19 +43,15 @@ export default function CompanyTimeline({
                   transition={{
                     duration: 0.35,
                   }}
-                  className="relative h-12 w-12 rounded-full border-4 bg-white shadow-lg flex items-center justify-center overflow-hidden"
+                  className="company-timeline-logo"
                 >
-                  {company.logo ? (
-                    <img
-                      src={company.logo}
-                      alt={company.company}
-                      className="h-7 w-7 object-contain"
-                    />
-                  ) : (
-                    <span className="font-bold text-sm">
-                      {company.company[0]}
-                    </span>
-                  )}
+                  <LogoImage
+                    src={company.logo}
+                    alt={company.company}
+                    fallback={company.company.slice(0, 1)}
+                    className="company-timeline-logo-image"
+                    fallbackClassName="company-timeline-logo-fallback"
+                  />
 
                   {active && (
                     <motion.div
@@ -72,20 +69,20 @@ export default function CompanyTimeline({
                       : "#6B7280",
                     fontWeight: active ? 700 : 500,
                   }}
-                  className="mt-3 text-sm text-center"
+                  className="company-timeline-name"
                 >
                   {company.company}
                 </motion.span>
 
                 {/* Período */}
-                <span className="text-xs text-gray-400 mt-1">
+                <span className="company-timeline-period">
                   {company.from} - {company.to}
                 </span>
               </button>
 
               {/* Línea */}
               {index < companies.length - 1 && (
-                <div className="relative w-24 h-1 mx-2 rounded-full bg-gray-200 overflow-hidden">
+                <div className="company-timeline-connector">
                   <motion.div
                     initial={false}
                     animate={{
@@ -100,7 +97,7 @@ export default function CompanyTimeline({
                     transition={{
                       duration: 0.4,
                     }}
-                    className="absolute left-0 top-0 h-full rounded-full"
+                    className="company-timeline-connector-progress"
                   />
                 </div>
               )}

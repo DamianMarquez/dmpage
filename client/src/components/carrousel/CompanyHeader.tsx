@@ -1,9 +1,9 @@
 import { Card } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
-import BusinessIcon from "@mui/icons-material/Business";
 import { motion, AnimatePresence } from "framer-motion";
 import { companyAnimation } from "./animations";
 import  type{ Company } from "./types";
+import LogoImage from "./LogoImage";
 
 interface Props {
   company: Company;
@@ -11,7 +11,7 @@ interface Props {
 
 export default function CompanyHeader({ company }: Props) {
   return (
-    <div className="relative w-full flex justify-center">
+    <div className="company-header-wrapper">
       <AnimatePresence mode="wait">
         <motion.div
           key={company.id}
@@ -22,9 +22,13 @@ export default function CompanyHeader({ company }: Props) {
           >
           <Card
             elevation={0}
-            className="rounded-3xl border border-white/40 bg-white/70 backdrop-blur-xl shadow-2xl w-full max-w-4xl mx-auto"
+            className="company-header-card"
+            sx={{
+              backgroundColor: "rgba(17, 17, 24, 0.78)",
+              color: "var(--text)",
+            }}
           >
-              <div className="flex flex-col md:flex-row md:items-center gap-8 p-8 w-full">
+              <div className="company-header-content">
               {/* Logo */}
               <motion.div
                 whileHover={{
@@ -34,10 +38,10 @@ export default function CompanyHeader({ company }: Props) {
                 transition={{
                   duration: 0.25,
                 }}
-                className="flex justify-center md:justify-start"
+                className="company-header-logo-column"
               >
                 <div
-                  className="h-28 w-28 rounded-3xl flex items-center justify-center shadow-xl"
+                  className="company-header-logo-box"
                   style={{
                     background: `linear-gradient(
                       135deg,
@@ -46,42 +50,35 @@ export default function CompanyHeader({ company }: Props) {
                     )`,
                   }}
                 >
-                  {company.logo ? (
-                    <img
-                      src={company.logo}
-                      alt={company.company}
-                      className="h-20 w-20 object-contain"
-                    />
-                  ) : (
-                    <BusinessIcon
-                      sx={{
-                        fontSize: 52,
-                        color: "#FFF",
-                      }}
-                    />
-                  )}
+                  <LogoImage
+                    src={company.logo}
+                    alt={company.company}
+                    fallback={company.company.slice(0, 1)}
+                    className="company-header-logo"
+                    fallbackClassName="company-header-logo-fallback"
+                  />
                 </div>
               </motion.div>
 
               {/* Información */}
-              <div className="flex-1 w-full max-w-full">
+              <div className="company-header-info">
                 <motion.h1
                   layout
-                  className="text-4xl font-bold tracking-tight"
+                  className="company-header-company"
                 >
                   {company.company}
                 </motion.h1>
 
                 <motion.h2
                   layout
-                  className="mt-2 text-2xl font-medium text-gray-700"
+                  className="company-header-role"
                 >
                   {company.role}
                 </motion.h2>
 
                 <motion.p
                   layout
-                  className="mt-4 text-gray-500"
+                  className="company-header-period"
                 >
                   {company.from} — {company.to}
                 </motion.p>
@@ -94,7 +91,7 @@ export default function CompanyHeader({ company }: Props) {
                     href={company.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-6 text-sm font-medium"
+                    className="company-header-website"
                     style={{
                       color: company.primaryColor,
                     }}
@@ -106,9 +103,9 @@ export default function CompanyHeader({ company }: Props) {
               </div>
 
               {/* Banda lateral */}
-              <div className="hidden lg:flex">
+              <div className="company-header-side-band">
                 <div
-                  className="w-2 rounded-full"
+                  className="company-header-side-band-fill"
                   style={{
                     background: `linear-gradient(
                       to bottom,

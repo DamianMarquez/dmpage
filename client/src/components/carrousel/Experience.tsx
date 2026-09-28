@@ -7,6 +7,7 @@ import ProjectCard from "./ProjectCard";
 import ProjectTimeline from "./ProjectTimeline";
 import useExperience from "./useExperience";
 import  type{ Company } from "./types";
+import "./Experience.css";
 
 interface Props {
   companies: Company[];
@@ -42,23 +43,23 @@ export default function Experience({
   return (
     <section
       {...swipeHandlers}
-      className="w-full max-w-7xl mx-auto px-4 py-12"
+      className="experience-carousel-section"
     >
       <Background
         primaryColor={company.primaryColor}
         secondaryColor={company.secondaryColor}
       >
-        <div className="p-8 md:p-12 space-y-10">
+        <div className="experience-carousel-content">
 
           {/* Header */}
 
           <header>
 
-            <h1 className="text-5xl font-bold">
+            <h1 className="experience-carousel-title">
               Mi experiencia profesional
             </h1>
 
-            <p className="text-gray-600 mt-3 text-lg">
+            <p className="experience-carousel-intro">
               Un recorrido por las empresas y proyectos
               en los que participé durante mi carrera.
             </p>

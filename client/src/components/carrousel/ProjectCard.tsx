@@ -34,40 +34,37 @@ export default function ProjectCard({
       >
         <Card
           elevation={0}
-          className="
-            rounded-3xl
-            border
-            border-white/40
-            bg-white/70
-            backdrop-blur-xl
-            shadow-xl
-          "
+          className="project-card"
+          sx={{
+            backgroundColor: "rgba(17, 17, 24, 0.78)",
+            color: "var(--text)",
+          }}
         >
-          <div className="p-8">
+          <div className="project-card-content">
 
             {/* Header */}
 
-            <div className="flex justify-between items-start">
+            <div className="project-card-header">
 
-              <div>
+              <div className="project-card-heading">
 
-                <h2 className="text-3xl font-bold">
+                <h2 className="project-card-title">
                   {project.name}
                 </h2>
 
                 {project.subtitle && (
-                  <p className="text-lg text-gray-500 mt-1">
+                  <p className="project-card-subtitle">
                     {project.subtitle}
                   </p>
                 )}
 
-                <p className="text-sm text-gray-400 mt-3">
+                <p className="project-card-period">
                   {project.period}
                 </p>
 
               </div>
 
-              <div className="flex gap-2">
+              <div className="project-card-links">
 
                 {project.github && (
                   <Tooltip title="GitHub">
@@ -105,7 +102,7 @@ export default function ProjectCard({
 
             {/* Descripción */}
 
-            <p className="text-gray-700 leading-8 whitespace-pre-line">
+            <p className="project-card-description">
               {project.description}
             </p>
 
@@ -115,7 +112,7 @@ export default function ProjectCard({
               project.achievements.length > 0 && (
 
                 <>
-                  <div className="flex items-center gap-2 mt-8 mb-4">
+                  <div className="project-card-achievements-heading">
 
                     <EmojiEventsIcon
                       sx={{
@@ -123,13 +120,13 @@ export default function ProjectCard({
                       }}
                     />
 
-                    <h3 className="font-semibold text-lg">
+                    <h3 className="project-card-section-title">
                       Logros
                     </h3>
 
                   </div>
 
-                  <ul className="space-y-3">
+                  <ul className="project-card-achievements">
 
                     {project.achievements.map((item) => (
 
@@ -143,16 +140,16 @@ export default function ProjectCard({
                           opacity: 1,
                           x: 0,
                         }}
-                        className="flex gap-3"
+                        className="project-card-achievement"
                       >
                         <span
-                          className="mt-2 h-2 w-2 rounded-full"
+                          className="project-card-achievement-dot"
                           style={{
                             background: primaryColor,
                           }}
                         />
 
-                        <span className="text-gray-700">
+                        <span>
                           {item}
                         </span>
 
@@ -167,13 +164,13 @@ export default function ProjectCard({
 
             {/* Tecnologías */}
 
-            <div className="mt-10">
+            <div className="project-card-technologies">
 
-              <h3 className="font-semibold text-lg mb-4">
+              <h3 className="project-card-section-title">
                 Tecnologías
               </h3>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="project-card-tech-list">
 
                 {project.technologies.map((tech) => (
 
@@ -206,7 +203,7 @@ export default function ProjectCard({
             {project.images &&
               project.images.length > 0 && (
 
-                <div className="grid md:grid-cols-2 gap-4 mt-10">
+                <div className="project-card-images">
 
                   {project.images.map((image) => (
 
@@ -217,12 +214,7 @@ export default function ProjectCard({
                       key={image}
                       src={image}
                       alt=""
-                      className="
-                        rounded-xl
-                        shadow-lg
-                        object-cover
-                        w-full
-                      "
+                      className="project-card-image"
                     />
 
                   ))}

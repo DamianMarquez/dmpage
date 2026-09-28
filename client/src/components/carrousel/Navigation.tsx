@@ -36,10 +36,10 @@ export default function Navigation({
   return (
     <motion.div
       layout
-      className="flex flex-col md:flex-row items-center justify-between gap-4 mt-8"
+      className="experience-navigation"
     >
       {/* Izquierda */}
-      <div className="flex items-center gap-2">
+      <div className="experience-navigation-group">
 
         {onFirst && (
           <Tooltip title="Primer proyecto">
@@ -74,11 +74,11 @@ export default function Navigation({
 
       {/* Centro */}
 
-      <div className="hidden md:flex items-center gap-3 text-gray-500">
+      <div className="experience-navigation-help">
 
         <KeyboardIcon />
 
-        <span className="text-sm">
+        <span>
 
           ← Anterior
 
@@ -86,7 +86,7 @@ export default function Navigation({
 
         <span>|</span>
 
-        <span className="text-sm">
+        <span>
 
           Siguiente →
 
@@ -96,7 +96,7 @@ export default function Navigation({
 
       {/* Derecha */}
 
-      <div className="flex items-center gap-2">
+      <div className="experience-navigation-group">
 
         <Button
           variant="contained"

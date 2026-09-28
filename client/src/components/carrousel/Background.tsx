@@ -19,14 +19,14 @@ export default function Background({
       variants={backgroundAnimation}
       initial="initial"
       animate="animate"
-      className="relative overflow-hidden rounded-3xl"
+      className="experience-background"
       style={{
         background: `
           linear-gradient(
             135deg,
-            ${secondaryColor} 0%,
-            #ffffff 45%,
-            ${primaryColor}22 100%
+            ${primaryColor}18 0%,
+            #111118 48%,
+            ${secondaryColor}12 100%
           )
         `,
         transition: "background 700ms ease",
@@ -34,7 +34,7 @@ export default function Background({
     >
       {/* Glow superior */}
       <div
-        className="absolute -top-32 -left-32 h-80 w-80 rounded-full blur-3xl opacity-25"
+        className="experience-background-glow experience-background-glow-top"
         style={{
           background: primaryColor,
         }}
@@ -42,7 +42,7 @@ export default function Background({
 
       {/* Glow inferior */}
       <div
-        className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full blur-3xl opacity-20"
+        className="experience-background-glow experience-background-glow-bottom"
         style={{
           background: secondaryColor,
         }}
@@ -50,18 +50,18 @@ export default function Background({
 
       {/* Patrón de fondo */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="experience-background-pattern"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 1px 1px,#000 1px,transparent 0)
+            radial-gradient(circle at 1px 1px,#ffffff 1px,transparent 0)
           `,
           backgroundSize: "24px 24px",
         }}
       />
 
       {/* Glass and centering wrapper to ensure content is centered within the card */}
-      <div className="relative backdrop-blur-[6px] min-h-full w-full flex items-center justify-center">
-        <div className="w-full max-w-4xl px-4">
+      <div className="experience-background-content">
+        <div className="experience-background-inner">
           {children}
         </div>
       </div>

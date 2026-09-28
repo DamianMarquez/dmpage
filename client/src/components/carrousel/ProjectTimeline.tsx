@@ -26,8 +26,8 @@ export default function ProjectTimeline({
   }, [currentIndex]);
 
   return (
-    <div className="w-full overflow-x-auto scrollbar-hide py-6">
-      <div className="flex items-start min-w-max px-6">
+    <div className="project-timeline">
+      <div className="project-timeline-scroll">
         {projects.map((project, index) => {
           const completed = index < currentIndex;
           const active = index === currentIndex;
@@ -35,12 +35,12 @@ export default function ProjectTimeline({
           return (
             <div
               key={project.id}
-              className="flex items-start"
+              className="project-timeline-item"
             >
               <button
                 ref={active ? activeRef : null}
                 onClick={() => onSelect(index)}
-                className="group flex flex-col items-center w-36"
+                className="project-timeline-button"
               >
                 {/* Punto */}
                 <motion.div
@@ -54,12 +54,12 @@ export default function ProjectTimeline({
                   transition={{
                     duration: .30,
                   }}
-                  className="relative h-5 w-5 rounded-full border-2"
+                  className="project-timeline-dot"
                 >
                   {active && (
                     <motion.div
                       layoutId="active-project"
-                      className="absolute -inset-2 rounded-full"
+                      className="project-timeline-active-ring"
                       style={{
                         border: `2px solid ${primaryColor}`,
                       }}
@@ -75,20 +75,20 @@ export default function ProjectTimeline({
                       : "#6B7280",
                     fontWeight: active ? 700 : 500,
                   }}
-                  className="mt-3 text-sm text-center leading-5"
+                  className="project-timeline-name"
                 >
                   {project.name}
                 </motion.span>
 
                 {/* Período */}
-                <span className="mt-1 text-xs text-gray-400">
+                <span className="project-timeline-period">
                   {project.period}
                 </span>
               </button>
 
               {/* Línea */}
               {index < projects.length - 1 && (
-                <div className="relative mt-2 w-20 h-1 rounded-full bg-gray-200 overflow-hidden">
+                <div className="project-timeline-connector">
                   <motion.div
                     initial={false}
                     animate={{
@@ -103,7 +103,7 @@ export default function ProjectTimeline({
                     transition={{
                       duration: .35,
                     }}
-                    className="absolute left-0 top-0 h-full rounded-full"
+                    className="project-timeline-connector-progress"
                   />
                 </div>
               )}
