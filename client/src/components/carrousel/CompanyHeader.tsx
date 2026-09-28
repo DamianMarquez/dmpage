@@ -69,6 +69,10 @@ export default function CompanyHeader({ company }: Props) {
                   {company.company}
                 </motion.h1>
 
+                {company.client && (
+                  <p className="company-header-client">{company.client}</p>
+                )}
+
                 <motion.h2
                   layout
                   className="company-header-role"
@@ -82,6 +86,10 @@ export default function CompanyHeader({ company }: Props) {
                 >
                   {company.from} — {company.to}
                 </motion.p>
+
+                {company.location && (
+                  <p className="company-header-location">{company.location}</p>
+                )}
 
                 {company.website && (
                   <motion.a
@@ -115,6 +123,15 @@ export default function CompanyHeader({ company }: Props) {
                   }}
                 />
               </div>
+            </div>
+
+            <div className="company-header-details">
+              <p className="company-header-summary">{company.summary}</p>
+              <ul className="company-header-highlights">
+                {company.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
             </div>
           </Card>
         </motion.div>

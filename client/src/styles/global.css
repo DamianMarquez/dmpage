@@ -71,6 +71,7 @@
     justify-content: center;
     padding-top: 6rem;
     position: relative;
+    overflow: hidden;
   }
 
   .hero-eyebrow {

@@ -5,14 +5,13 @@ import { supabase } from '../supabaseClient';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import AboutSection from '../components/AboutSection';
+import ExperienceOverview from '../components/ExperienceOverview';
 import SkillsSection from '../components/SkillsSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import LoginModal from '../components/LoginModal';
 
 import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
-import Experience from '../components/carrousel/Experience';
-import { companies } from '../components/carrousel/experienceData';
 
 export default function HomePage() {
   useIntersectionAnimation('.exp-item, .skill-card');
@@ -44,7 +43,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <AboutSection />
-        <Experience companies={companies} />
+        <ExperienceOverview />
         <SkillsSection />
         <ContactSection />
       </main>
