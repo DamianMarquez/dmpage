@@ -63,12 +63,12 @@ export default function CompanyHeader({ company }: Props) {
 
               {/* Información */}
               <div className="company-header-info">
-                <motion.h1
+                <motion.h2
                   layout
                   className="company-header-company"
                 >
                   {company.company}
-                </motion.h1>
+                </motion.h2>
 
                 {company.client && (
                   <p className="company-header-client">{company.client}</p>

@@ -10,6 +10,7 @@ import SkillsSection from '../components/SkillsSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import LoginModal from '../components/LoginModal';
+import SeoHead from '../seo/SeoHead';
 
 import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
 
@@ -38,6 +39,7 @@ export default function HomePage() {
 
   return (
     <>
+      <SeoHead page="home" />
       <Navbar user={user} onOpenLogin={() => setIsLoginOpen(true)} />
 
       <main>

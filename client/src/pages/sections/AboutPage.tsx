@@ -2,6 +2,7 @@ import "./AboutPage.css";
 import SectionHeader from "../../components/SectionHeader";
 import SectionNavigation from "./SectionNavigation";
 import FloatingBackButton from "../../components/FloatingBackButton";
+import SeoHead from "../../seo/SeoHead";
 
 export default function AboutPage() {
   const navigationItems = [
@@ -21,6 +22,8 @@ export default function AboutPage() {
   ];
 
   return (
+  <>
+    <SeoHead page="about" />
   <section id="about-page" >
 
     <FloatingBackButton
@@ -573,5 +576,6 @@ export default function AboutPage() {
     </div>
 
   </section>
+  </>
   );
 }

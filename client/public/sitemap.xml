@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://marquezdamian.com.ar/</loc>
+  </url>
+  <url>
+    <loc>https://marquezdamian.com.ar/sections/about</loc>
+  </url>
+  <url>
+    <loc>https://marquezdamian.com.ar/sections/experience</loc>
+  </url>
+  <url>
+    <loc>https://marquezdamian.com.ar/sections/skills</loc>
+  </url>
+  <url>
+    <loc>https://marquezdamian.com.ar/sections/contact</loc>
+  </url>
+  <url>
     <loc>https://marquezdamian.com.ar/blog</loc>
   </url>
-
 </urlset>

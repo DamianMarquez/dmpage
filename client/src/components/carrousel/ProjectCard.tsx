@@ -215,7 +215,9 @@ export default function ProjectCard({
                       }}
                       key={image}
                       src={image}
-                      alt=""
+                      alt={`${project.name} — proyecto de Damian Marquez`}
+                      loading="lazy"
+                      decoding="async"
                       className="project-card-image"
                     />
 

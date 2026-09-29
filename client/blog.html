@@ -3,8 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog | Damian Marquez</title>
-    <meta name="description" content="Bienvenido al blog de Damian Marquez, Senior Full Stack Developer." />
+    <title>Blog de ingeniería de software | Damian Marquez</title>
+    <meta name="description" content="Artículos de Damian Marquez sobre arquitectura de software, Go, Java, sistemas distribuidos, AI, automatización y mentoring técnico." />
+    <link rel="canonical" href="https://marquezdamian.com.ar/blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog de ingeniería de software | Damian Marquez" />
+    <meta property="og:description" content="Ideas prácticas sobre arquitectura de software, sistemas distribuidos, Go, Java, AI y mentoring." />
+    <meta property="og:url" content="https://marquezdamian.com.ar/blog" />
+    <meta property="og:image" content="https://marquezdamian.com.ar/og-image.svg" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Blog de ingeniería de software | Damian Marquez" />
+    <meta name="twitter:description" content="Ideas prácticas sobre arquitectura de software, sistemas distribuidos, Go, Java, AI y mentoring." />
+    <meta name="twitter:image" content="https://marquezdamian.com.ar/og-image.svg" />
+    <script id="seo-jsonld" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": "https://marquezdamian.com.ar/blog#blog",
+        "url": "https://marquezdamian.com.ar/blog",
+        "name": "Blog de ingeniería de software",
+        "description": "Artículos sobre arquitectura de software, sistemas distribuidos, AI, automatización y mentoring técnico.",
+        "inLanguage": "es-AR",
+        "publisher": { "@id": "https://marquezdamian.com.ar/#person" }
+      }
+    </script>
     
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -97,6 +120,47 @@
         max-width: 480px;
         margin-left: auto;
         margin-right: auto;
+      }
+
+      .blog-featured {
+        max-width: 480px;
+        margin: -1rem auto 2.5rem;
+        padding: 1.25rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .blog-featured-label {
+        margin-bottom: .5rem;
+        color: var(--accent);
+        font-family: 'DM Mono', monospace;
+        font-size: .7rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+
+      .blog-featured h2 {
+        margin-bottom: .65rem;
+        color: var(--text);
+        font-family: 'Syne', sans-serif;
+        font-size: 1.25rem;
+        line-height: 1.25;
+      }
+
+      .blog-featured p:not(.blog-featured-label) {
+        color: var(--muted);
+        font-size: .95rem;
+        line-height: 1.6;
+      }
+
+      .blog-featured-link {
+        display: inline-block;
+        margin-top: .8rem;
+        color: var(--accent);
+        font-size: .85rem;
+        text-decoration: none;
       }
 
       .btn-back {
@@ -208,10 +272,21 @@
         </h1>
         
         <p class="blog-desc">
-          Próximamente compartiré artículos técnicos sobre arquitectura de software, 
-          sistemas distribuidos en Go/Java, integraciones de IA y automatización. 
-          ¡Mantente al tanto!
+          Ideas prácticas sobre arquitectura de software, sistemas distribuidos en
+          Go y Java, integraciones de AI, automatización y crecimiento de equipos.
         </p>
+
+        <article class="blog-featured">
+          <p class="blog-featured-label">Primer artículo</p>
+          <h2>Cómo diseñar sistemas que los equipos puedan mantener</h2>
+          <p>
+            Una introducción a las decisiones de arquitectura, la reducción de
+            complejidad y el rol del contexto de negocio en el diseño de software.
+          </p>
+          <a href="/sections/about" class="blog-featured-link">
+            Conocer mi enfoque de arquitectura →
+          </a>
+        </article>
         
         <a href="/" class="btn-back">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
