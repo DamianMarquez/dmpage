@@ -63,7 +63,10 @@
 .difficulty-option strong { color: #d5d0ff; font: 700 .8rem 'DM Mono', monospace; }
 .difficulty-option small { color: #b8b7c7; font-size: .68rem; line-height: 1.35; }
 .difficulty-option.is-selected { border-color: #a59aff; background: #7165df30; box-shadow: inset 0 0 18px #786cff20; }
-.mistake-list { max-height: 235px; overflow-y: auto; display: grid; gap: .5rem; margin: 0 0 1rem; text-align: left; }
+.mistake-carousel { display: grid; gap: .55rem; margin: 0 0 1rem; text-align: left; }
+.mistake-carousel-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; color: #d0cfdb; font: .7rem 'DM Mono', monospace; }
+.mistake-carousel-controls button { width: 32px; height: 30px; border: 1px solid #ffffff35; border-radius: 6px; background: #ffffff0a; color: white; font-size: 1rem; cursor: pointer; }
+.mistake-carousel-controls button:disabled { opacity: .4; cursor: default; }
 .mistake-card { padding: .65rem .75rem; border: 1px solid #fa6d6d55; border-radius: 7px; background: #ff7a910c; }
 .mistake-card h3 { margin: 0 0 .25rem; color: #ffd2da; font: 700 .8rem 'DM Mono', monospace; }
 .mistake-card p { margin: .2rem 0 0; color: #cbc9d7; font-size: .75rem; }
@@ -110,7 +113,7 @@
   .game-controls > .game-small-button { margin-left: 0; }
   .difficulty-picker { grid-template-columns: 1fr; }
   .difficulty-option { grid-template-columns: 4rem 1fr; align-items: center; text-align: left; }
-  .mistake-list { max-height: 250px; }
+  .mistake-carousel { max-height: 275px; overflow-y: auto; }
   .learning-panel { padding: 1rem; }
 }
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import SeoHead from '../../seo/SeoHead';
-import { architectureLanes, architectureLessons, difficultyOptions, fallingComponentsByDifficulty, type GameDifficulty } from './hexagonalDefenderData';
+import { architectureLanes, architectureLessons, difficultyOptions, selectRoundComponents, type FallingComponent, type GameDifficulty } from './hexagonalDefenderData';
 import './games.css';
 
 type GameStatus = 'ready' | 'playing' | 'paused' | 'feedback' | 'finished';
@@ -11,6 +11,7 @@ type Mistake = { componentName: string; selectedLane: string; correctLane: strin
 export default function HexagonalDefender() {
   const [status, setStatus] = useState<GameStatus>('ready');
   const [difficulty, setDifficulty] = useState<GameDifficulty>('easy');
+  const [fallingComponents, setFallingComponents] = useState<FallingComponent[]>(() => selectRoundComponents('easy'));
   const [laneIndex, setLaneIndex] = useState(0);
   const [componentIndex, setComponentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -19,9 +20,9 @@ export default function HexagonalDefender() {
   const [feedback, setFeedback] = useState<{ correct: boolean; message: string } | null>(null);
   const [finishAfterFeedback, setFinishAfterFeedback] = useState(false);
   const [mistakes, setMistakes] = useState<Mistake[]>([]);
+  const [mistakeIndex, setMistakeIndex] = useState(0);
   const laneIndexRef = useRef(laneIndex);
   const progressRef = useRef(0);
-  const fallingComponents = fallingComponentsByDifficulty[difficulty];
   const component = fallingComponents[componentIndex];
   const selectedLane = architectureLanes[laneIndex];
   const laneCenter = `${((laneIndex + 0.5) / architectureLanes.length) * 100}%`;
@@ -38,6 +39,7 @@ export default function HexagonalDefender() {
   };
 
   const restart = () => {
+    setFallingComponents(selectRoundComponents(difficulty));
     setComponentIndex(0);
     setLaneIndex(0);
     setProgress(0);
@@ -48,6 +50,7 @@ export default function HexagonalDefender() {
     setFeedback(null);
     setFinishAfterFeedback(false);
     setMistakes([]);
+    setMistakeIndex(0);
     setStatus('playing');
   };
 
@@ -170,10 +173,10 @@ export default function HexagonalDefender() {
               ))}
             </div>
 
-            {status === 'ready' && <div className="game-overlay"><div className="ready-content"><span className="overlay-icon">⬡</span><h2>Defendé la arquitectura</h2><p>Movete entre los seis carriles y ubicá cada componente en su zona correcta.</p><div className="difficulty-picker" role="group" aria-label="Elegí la dificultad">{difficultyOptions.map((option) => <button key={option.id} type="button" className={`difficulty-option ${difficulty === option.id ? 'is-selected' : ''}`} onClick={() => setDifficulty(option.id)} aria-pressed={difficulty === option.id}><strong>{option.label}</strong><small>{option.description}</small></button>)}</div><button className="game-primary-button" onClick={restart}>Iniciar partida</button></div></div>}
+            {status === 'ready' && <div className="game-overlay"><div className="ready-content"><span className="overlay-icon">⬡</span><h2>Defendé la arquitectura</h2><p>Movete entre los seis carriles y ubicá cada componente en su zona correcta.</p><div className="difficulty-picker" role="group" aria-label="Elegí la dificultad">{difficultyOptions.map((option) => <button key={option.id} type="button" className={`difficulty-option ${difficulty === option.id ? 'is-selected' : ''}`} onClick={() => { setDifficulty(option.id); setFallingComponents(selectRoundComponents(option.id)); }} aria-pressed={difficulty === option.id}><strong>{option.label}</strong><small>{option.description}</small></button>)}</div><button className="game-primary-button" onClick={restart}>Iniciar partida</button></div></div>}
             {status === 'paused' && <div className="game-overlay"><div><span className="overlay-icon">Ⅱ</span><h2>Partida en pausa</h2><p>La arquitectura espera. Cuando quieras, retomamos.</p><button className="game-primary-button" onClick={() => setStatus('playing')}>Continuar</button></div></div>}
             {status === 'feedback' && feedback && <div className={`game-feedback ${feedback.correct ? 'feedback-correct' : 'feedback-wrong'}`} role="status"><strong>{feedback.correct ? '¡Correcto! +100' : 'Carril incorrecto'}</strong><p>{feedback.message}</p></div>}
-            {status === 'finished' && <div className="game-overlay"><div className="finish-content"><span className="overlay-icon">{lives > 0 ? '✦' : '◇'}</span><h2>{lives > 0 ? '¡Arquitectura defendida!' : 'Fin de la partida'}</h2><p>Sumaste <strong>{score}</strong> puntos. {mistakes.length ? `Revisá ${mistakes.length} ${mistakes.length === 1 ? 'error' : 'errores'} y volvé a intentarlo.` : '¡No tuviste errores en esta ronda!'}</p>{mistakes.length > 0 && <div className="mistake-list" aria-label="Resumen de respuestas incorrectas">{mistakes.map((mistake, index) => <article className="mistake-card" key={`${mistake.componentName}-${index}`}><h3>{mistake.componentName}</h3><p>Elegiste <strong>{mistake.selectedLane}</strong>; correspondía <strong>{mistake.correctLane}</strong>.</p><p>{mistake.explanation}</p></article>)}</div>}<button className="game-primary-button" onClick={restart}>Jugar de nuevo · {difficultyOptions.find((option) => option.id === difficulty)?.label}</button></div></div>}
+            {status === 'finished' && <div className="game-overlay"><div className="finish-content"><span className="overlay-icon">{lives > 0 ? '✦' : '◇'}</span><h2>{lives > 0 ? '¡Arquitectura defendida!' : 'Fin de la partida'}</h2><p>Sumaste <strong>{score}</strong> puntos. {mistakes.length ? `Revisá ${mistakes.length} ${mistakes.length === 1 ? 'error' : 'errores'} de esta ronda.` : 'No hubo errores que repasar en esta ronda.'}</p>{mistakes.length > 0 && <section className="mistake-carousel" aria-label="Repaso de respuestas incorrectas"><div className="mistake-carousel-controls"><button type="button" aria-label="Error anterior" onClick={() => setMistakeIndex((current) => (current - 1 + mistakes.length) % mistakes.length)} disabled={mistakes.length < 2}>←</button><span aria-live="polite">{mistakeIndex + 1} / {mistakes.length}</span><button type="button" aria-label="Error siguiente" onClick={() => setMistakeIndex((current) => (current + 1) % mistakes.length)} disabled={mistakes.length < 2}>→</button></div><article className="mistake-card" aria-live="polite" key={`${mistakes[mistakeIndex].componentName}-${mistakeIndex}`}><h3>{mistakes[mistakeIndex].componentName}</h3><p>Elegiste <strong>{mistakes[mistakeIndex].selectedLane}</strong>; correspondía <strong>{mistakes[mistakeIndex].correctLane}</strong>.</p><p>{mistakes[mistakeIndex].explanation}</p></article></section>}<button className="game-primary-button" onClick={restart}>Jugar de nuevo · {difficultyOptions.find((option) => option.id === difficulty)?.label}</button></div></div>}
           </div>
 
           <div className="game-controls">
