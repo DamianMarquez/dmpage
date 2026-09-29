@@ -2,13 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import SeoHead from '../../seo/SeoHead';
-import { architectureLanes, architectureLessons, fallingComponents } from './hexagonalDefenderData';
+import { architectureLanes, architectureLessons, difficultyOptions, fallingComponentsByDifficulty, type GameDifficulty } from './hexagonalDefenderData';
 import './games.css';
 
 type GameStatus = 'ready' | 'playing' | 'paused' | 'feedback' | 'finished';
+type Mistake = { componentName: string; selectedLane: string; correctLane: string; explanation: string };
 
 export default function HexagonalDefender() {
   const [status, setStatus] = useState<GameStatus>('ready');
+  const [difficulty, setDifficulty] = useState<GameDifficulty>('easy');
   const [laneIndex, setLaneIndex] = useState(0);
   const [componentIndex, setComponentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -16,8 +18,10 @@ export default function HexagonalDefender() {
   const [lives, setLives] = useState(3);
   const [feedback, setFeedback] = useState<{ correct: boolean; message: string } | null>(null);
   const [finishAfterFeedback, setFinishAfterFeedback] = useState(false);
+  const [mistakes, setMistakes] = useState<Mistake[]>([]);
   const laneIndexRef = useRef(laneIndex);
   const progressRef = useRef(0);
+  const fallingComponents = fallingComponentsByDifficulty[difficulty];
   const component = fallingComponents[componentIndex];
   const selectedLane = architectureLanes[laneIndex];
   const laneCenter = `${((laneIndex + 0.5) / architectureLanes.length) * 100}%`;
@@ -43,6 +47,7 @@ export default function HexagonalDefender() {
     setLives(3);
     setFeedback(null);
     setFinishAfterFeedback(false);
+    setMistakes([]);
     setStatus('playing');
   };
 
@@ -74,7 +79,16 @@ export default function HexagonalDefender() {
       const correct = architectureLanes[laneIndexRef.current].id === component.laneId;
       const answer = architectureLanes.find((lane) => lane.id === component.laneId)!;
       if (correct) setScore((current) => current + 100);
-      else setLives((current) => current - 1);
+      else {
+        setScore((current) => Math.max(0, current - 150));
+        setLives((current) => current - 1);
+        setMistakes((current) => [...current, {
+          componentName: component.name,
+          selectedLane: architectureLanes[laneIndexRef.current].label,
+          correctLane: answer.label,
+          explanation: component.explanation,
+        }]);
+      }
       setFeedback({
         correct,
         message: correct
@@ -88,7 +102,7 @@ export default function HexagonalDefender() {
 
     frame = window.requestAnimationFrame(animate);
     return () => window.cancelAnimationFrame(frame);
-  }, [status, componentIndex, component, lives]);
+  }, [status, componentIndex, component, fallingComponents.length, lives]);
 
   useEffect(() => {
     if (status !== 'feedback') return;
@@ -120,7 +134,7 @@ export default function HexagonalDefender() {
 
         <section className="defender-shell" aria-label="Partida de Hexagonal Defender">
           <div className="game-hud">
-            <div><span>PUNTAJE</span><strong>{score.toString().padStart(4, '0')}</strong></div>
+            <div><span>PUNTAJE</span><strong>{score.toString().padStart(4, '0')}</strong><small className="score-floor">Mínimo: 0</small></div>
             <div><span>COMPONENTE</span><strong>{Math.min(componentIndex + 1, fallingComponents.length)} / {fallingComponents.length}</strong></div>
             <div><span>ENERGÍA</span><strong className="game-lives">{'◆ '.repeat(lives)}{'◇ '.repeat(3 - lives)}</strong></div>
             {(status === 'playing' || status === 'paused') && (
@@ -135,7 +149,7 @@ export default function HexagonalDefender() {
             <div className="falling-track" aria-hidden="true" style={{ left: laneCenter }} />
             {(status === 'playing' || status === 'feedback') && component && (
               <div className="falling-component" style={{ top: `${8 + progress * 0.57}%`, left: laneCenter }}>
-                <span>{component.kind}</span><strong>{component.name}</strong>
+                {difficulty === 'easy' && <span>{component.kind}</span>}<strong>{component.name}</strong>
               </div>
             )}
             <div className="lane-grid" role="group" aria-label="Elegí una zona arquitectónica">
@@ -156,10 +170,10 @@ export default function HexagonalDefender() {
               ))}
             </div>
 
-            {status === 'ready' && <div className="game-overlay"><div><span className="overlay-icon">⬡</span><h2>Defendé la arquitectura</h2><p>Movete entre los seis carriles y ubicá cada componente en su zona correcta.</p><button className="game-primary-button" onClick={restart}>Iniciar partida</button></div></div>}
+            {status === 'ready' && <div className="game-overlay"><div className="ready-content"><span className="overlay-icon">⬡</span><h2>Defendé la arquitectura</h2><p>Movete entre los seis carriles y ubicá cada componente en su zona correcta.</p><div className="difficulty-picker" role="group" aria-label="Elegí la dificultad">{difficultyOptions.map((option) => <button key={option.id} type="button" className={`difficulty-option ${difficulty === option.id ? 'is-selected' : ''}`} onClick={() => setDifficulty(option.id)} aria-pressed={difficulty === option.id}><strong>{option.label}</strong><small>{option.description}</small></button>)}</div><button className="game-primary-button" onClick={restart}>Iniciar partida</button></div></div>}
             {status === 'paused' && <div className="game-overlay"><div><span className="overlay-icon">Ⅱ</span><h2>Partida en pausa</h2><p>La arquitectura espera. Cuando quieras, retomamos.</p><button className="game-primary-button" onClick={() => setStatus('playing')}>Continuar</button></div></div>}
             {status === 'feedback' && feedback && <div className={`game-feedback ${feedback.correct ? 'feedback-correct' : 'feedback-wrong'}`} role="status"><strong>{feedback.correct ? '¡Correcto! +100' : 'Carril incorrecto'}</strong><p>{feedback.message}</p></div>}
-            {status === 'finished' && <div className="game-overlay"><div><span className="overlay-icon">{lives > 0 ? '✦' : '◇'}</span><h2>{lives > 0 ? '¡Arquitectura defendida!' : 'Fin de la partida'}</h2><p>Sumaste <strong>{score}</strong> puntos. {score >= fallingComponents.length * 100 ? '¡Dominás los puertos y adapters!' : 'Cada error también enseña: repasá los carriles e intentá otra vez.'}</p><button className="game-primary-button" onClick={restart}>Jugar de nuevo</button></div></div>}
+            {status === 'finished' && <div className="game-overlay"><div className="finish-content"><span className="overlay-icon">{lives > 0 ? '✦' : '◇'}</span><h2>{lives > 0 ? '¡Arquitectura defendida!' : 'Fin de la partida'}</h2><p>Sumaste <strong>{score}</strong> puntos. {mistakes.length ? `Revisá ${mistakes.length} ${mistakes.length === 1 ? 'error' : 'errores'} y volvé a intentarlo.` : '¡No tuviste errores en esta ronda!'}</p>{mistakes.length > 0 && <div className="mistake-list" aria-label="Resumen de respuestas incorrectas">{mistakes.map((mistake, index) => <article className="mistake-card" key={`${mistake.componentName}-${index}`}><h3>{mistake.componentName}</h3><p>Elegiste <strong>{mistake.selectedLane}</strong>; correspondía <strong>{mistake.correctLane}</strong>.</p><p>{mistake.explanation}</p></article>)}</div>}<button className="game-primary-button" onClick={restart}>Jugar de nuevo · {difficultyOptions.find((option) => option.id === difficulty)?.label}</button></div></div>}
           </div>
 
           <div className="game-controls">
