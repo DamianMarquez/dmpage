@@ -6,7 +6,9 @@ export type SeoPageKey =
   | "about"
   | "experience"
   | "skills"
-  | "contact";
+  | "contact"
+  | "games"
+  | "hexagonalDefender";
 
 export interface SeoPage {
   path: string;
@@ -57,5 +59,19 @@ export const seoPages: Record<SeoPageKey, SeoPage> = {
       "Contactá a Damian Marquez para oportunidades remotas, consultoría, arquitectura de software, mentoring técnico y colaboraciones interesantes.",
     heading: "Contacto",
     breadcrumb: "Contacto",
+  },
+  games: {
+    path: "/games",
+    title: "Juegos educativos | Damian Marquez",
+    description: "Juegos interactivos para aprender conceptos de arquitectura y desarrollo de software.",
+    heading: "Juegos educativos",
+    breadcrumb: "Juegos",
+  },
+  hexagonalDefender: {
+    path: "/games/hexagonal-defender",
+    title: "Hexagonal Defender | Juegos educativos",
+    description: "Defendé tu arquitectura. Identificá dónde pertenece cada componente de una Arquitectura Hexagonal.",
+    heading: "Hexagonal Defender",
+    breadcrumb: "Hexagonal Defender",
   },
 };

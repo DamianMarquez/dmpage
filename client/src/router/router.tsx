@@ -5,6 +5,8 @@ import AboutPage from '../pages/sections/AboutPage';
 import ExperiencePage from '../pages/sections/ExperiencePage';
 import SkillsPage from '../pages/sections/SkillsPage';
 import ContactPage from '../pages/sections/ContactPage';
+import GamesPage from '../pages/games/GamesPage';
+import HexagonalDefender from '../pages/games/HexagonalDefender';
 
 export const router = createBrowserRouter([
   {
@@ -26,5 +28,13 @@ export const router = createBrowserRouter([
   {
     path: '/sections/contact',
     element: <ContactPage />,
+  },
+  {
+    path: '/games',
+    element: <GamesPage />,
+  },
+  {
+    path: '/games/hexagonal-defender',
+    element: <HexagonalDefender />,
   },
 ]);

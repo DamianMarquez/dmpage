@@ -31,6 +31,14 @@ const pageMetadata = {
     '/sections/contact': {
         title: 'Contacto | Damian Marquez',
         description: 'Contactá a Damian Marquez para oportunidades remotas, consultoría, arquitectura de software, mentoring técnico y colaboraciones interesantes.'
+    },
+    '/games': {
+        title: 'Juegos educativos | Damian Marquez',
+        description: 'Juegos interactivos para aprender conceptos de arquitectura y desarrollo de software.'
+    },
+    '/games/hexagonal-defender': {
+        title: 'Hexagonal Defender | Juegos educativos',
+        description: 'Defendé tu arquitectura. Identificá dónde pertenece cada componente de una Arquitectura Hexagonal.'
     }
 };
 
@@ -54,6 +62,14 @@ const fallbackContent = {
     '/sections/contact': {
         heading: 'Contacto',
         text: 'Disponible para oportunidades remotas, consultoría, arquitectura de software, mentoring técnico y colaboraciones interesantes.'
+    },
+    '/games': {
+        heading: 'Juegos educativos',
+        text: 'Aprendé conceptos de software jugando. Conocé Hexagonal Defender, un juego para identificar las capas y dependencias de la Arquitectura Hexagonal.'
+    },
+    '/games/hexagonal-defender': {
+        heading: 'Hexagonal Defender',
+        text: 'Defendé tu arquitectura. Identificá dónde pertenece cada componente de una Arquitectura Hexagonal.'
     }
 };
 
@@ -163,7 +179,7 @@ function renderIndex(pathname) {
     );
     html = html.replace(
         /<!-- SEO_NOSCRIPT -->/i,
-        `<noscript id="seo-noscript"><main><h1>${escapeHtml(fallback.heading)}</h1><p>${escapeHtml(fallback.text)}</p><nav aria-label="Navegación principal"><a href="/">Inicio</a> <a href="/sections/about">Sobre mí</a> <a href="/sections/experience">Experiencia</a> <a href="/sections/skills">Skills</a> <a href="/sections/contact">Contacto</a> <a href="/blog">Blog</a></nav></main></noscript>`
+        `<noscript id="seo-noscript"><main><h1>${escapeHtml(fallback.heading)}</h1><p>${escapeHtml(fallback.text)}</p><nav aria-label="Navegación principal"><a href="/">Inicio</a> <a href="/sections/about">Sobre mí</a> <a href="/sections/experience">Experiencia</a> <a href="/sections/skills">Skills</a> <a href="/sections/contact">Contacto</a> <a href="/blog">Blog</a> <a href="/games">Juegos</a></nav></main></noscript>`
     );
 
     return html;

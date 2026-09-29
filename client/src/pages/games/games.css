@@ -1,0 +1,105 @@
+.games-page {
+  min-height: 100vh;
+  padding: 9rem max(1.25rem, calc((100vw - 1100px) / 2)) 5rem;
+  color: var(--text);
+}
+
+.games-heading, .defender-heading { max-width: 760px; margin: 0 auto 2.5rem; }
+.games-eyebrow { color: var(--accent3); font: 700 .75rem 'DM Mono', monospace; letter-spacing: .16em; text-transform: uppercase; margin-bottom: .8rem; }
+.games-heading h1, .defender-heading h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); margin: 0 0 1rem; }
+.games-heading > p:last-child, .defender-heading > p:last-child { color: var(--muted); font-size: 1.1rem; }
+.game-card { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: minmax(180px, .8fr) 1.2fr; overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(135deg, #19192a, #101017 70%); box-shadow: 0 24px 80px #0005; }
+.game-card-art { min-height: 275px; position: relative; display: grid; place-items: center; overflow: hidden; background: radial-gradient(ellipse at center, #7c6dfa35, #151522 65%); color: #a49aff; }
+.game-card-art::before, .game-card-art::after { content: ''; position: absolute; width: 190px; height: 190px; border: 1px solid #9d92ff55; transform: rotate(30deg); }
+.game-card-art::after { width: 135px; height: 135px; transform: rotate(60deg); }
+.game-card-art span { font-size: 7rem; z-index: 1; text-shadow: 0 0 34px #8c7dff; }
+.game-card-art i, .game-card-art b { position: absolute; color: #c3bcff; font-size: 1.4rem; }
+.game-card-art i { top: 23%; left: 18%; }.game-card-art b { bottom: 22%; right: 20%; }
+.game-card-copy { align-self: center; padding: 2rem; }
+.game-card-tag { color: var(--accent3); font: .68rem 'DM Mono', monospace; letter-spacing: .1em; }
+.game-card-copy h2 { font-size: 1.8rem; line-height: 1.2; margin: .7rem 0; }
+.game-card-copy p { color: var(--muted); margin-bottom: 1.5rem; }
+.game-primary-button, .game-small-button { border: 1px solid var(--accent); border-radius: 7px; background: var(--accent); color: white; display: inline-flex; justify-content: center; align-items: center; gap: .6rem; padding: .75rem 1rem; font: 700 .85rem 'DM Mono', monospace; text-decoration: none; cursor: pointer; transition: transform .15s, background .15s; }
+.game-primary-button:hover, .game-small-button:hover { background: #6657dc; transform: translateY(-1px); }
+.game-small-button { padding: .5rem .7rem; background: transparent; border-color: #ffffff35; font-size: .75rem; }
+.game-small-button:hover { background: #ffffff12; }
+.games-back-link { display: inline-block; color: var(--muted); margin-bottom: 1.2rem; text-decoration: none; }
+.games-back-link:hover { color: var(--text); }
+.defender-heading { margin-bottom: 1.4rem; }
+.defender-heading h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+.defender-heading .games-eyebrow { margin: 0 0 .4rem; }
+.defender-heading > p:last-child { font-size: .98rem; }
+.defender-shell { max-width: 1050px; margin: 0 auto; overflow: hidden; border: 1px solid #ffffff18; border-radius: 14px; background: #101019; box-shadow: 0 20px 70px #0006; }
+.game-hud { min-height: 66px; display: flex; gap: 2rem; align-items: center; padding: .75rem 1.2rem; border-bottom: 1px solid #ffffff12; }
+.game-hud > div { display: grid; line-height: 1.2; gap: .3rem; }
+.game-hud span { color: var(--muted); font: .63rem 'DM Mono', monospace; letter-spacing: .08em; }
+.game-hud strong { font: 700 .95rem 'DM Mono', monospace; }
+.game-hud .game-small-button { margin-left: auto; }
+.game-lives { color: #ff7a91 !important; letter-spacing: .08em; }
+.defender-board { height: 420px; position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 50% 52%, #24203f 0, #13131f 50%, #0d0d16 100%); }
+.defender-board::before { content: ''; position: absolute; z-index: -1; inset: 0; opacity: .24; background-image: linear-gradient(#ffffff0a 1px, transparent 1px), linear-gradient(90deg, #ffffff0a 1px, transparent 1px); background-size: 32px 32px; }
+.board-stars { position: absolute; inset: 4% 0 auto; text-align: center; color: #b2aaff55; letter-spacing: .7rem; pointer-events: none; }
+.falling-track { position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px dashed #9e91ff36; transition: left .18s ease; }
+.falling-component { z-index: 2; position: absolute; left: 50%; transform: translate(-50%, -50%); min-width: 190px; display: grid; gap: .15rem; padding: .65rem 1rem; text-align: center; border: 1px solid #aa9eff; border-radius: 9px; background: #24203f; box-shadow: 0 0 24px #7468ff77; animation: component-pulse 1.5s ease-in-out infinite alternate; transition: left .18s ease; }
+.falling-component span { color: #c4bdff; font: .58rem 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+.falling-component strong { color: white; font: 700 .95rem 'DM Mono', monospace; }
+@keyframes component-pulse { to { box-shadow: 0 0 36px #7468ffbb; } }
+.lane-grid { position: absolute; inset: auto 1rem 1rem; height: 140px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .45rem; }
+.architecture-lane { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .24rem; padding: .55rem .25rem .35rem; border: 1px solid #ffffff18; border-radius: 8px; background: #ffffff08; color: var(--text); text-align: center; cursor: pointer; transition: background .18s, border-color .18s, transform .18s; }
+.architecture-lane:hover:not(:disabled) { border-color: #a398ff99; background: #7165df1a; }
+.architecture-lane.is-selected { border-color: #9388ff; background: #7165df2b; box-shadow: inset 0 0 22px #786cff18; }
+.architecture-lane.is-correct { border-color: var(--accent3); }
+.architecture-lane:disabled { cursor: default; }
+.lane-code { color: #aaa0ff; font: .52rem 'DM Mono', monospace; letter-spacing: .04em; }
+.architecture-lane > strong { font-size: clamp(.55rem, .95vw, .8rem); line-height: 1.1; }
+.architecture-lane > small { color: #a7a6b8; font-size: clamp(.46rem, .68vw, .58rem); line-height: 1.25; }
+.player-ship { position: absolute; bottom: -13px; color: var(--accent3); font-size: 1.25rem; text-shadow: 0 0 12px var(--accent3); }
+.game-overlay { position: absolute; z-index: 5; inset: 0; display: grid; place-items: center; padding: 1rem; background: #090911c9; backdrop-filter: blur(4px); text-align: center; }
+.game-overlay > div { max-width: 460px; }
+.overlay-icon { color: #a59aff; font-size: 2.5rem; text-shadow: 0 0 25px #8a7dff; }
+.game-overlay h2 { margin: .4rem 0 .6rem; font-size: 1.8rem; }
+.game-overlay p { color: #c2c1ce; margin: 0 auto 1.2rem; }
+.game-feedback { position: absolute; z-index: 6; inset: auto 1rem 165px; padding: .75rem 1rem; border: 1px solid; border-radius: 8px; background: #14141deF; text-align: center; animation: feedback-in .2s ease-out; }
+.game-feedback strong { font: 700 .86rem 'DM Mono', monospace; }
+.game-feedback p { font-size: .82rem; color: #d0cfdb; margin-top: .2rem; }
+.feedback-correct { border-color: #6dfabc99; }.feedback-correct strong { color: var(--accent3); }
+.feedback-wrong { border-color: #fa6d6d99; }.feedback-wrong strong { color: #ff8c9c; }
+@keyframes feedback-in { from { opacity: 0; transform: translateY(8px); } }
+.game-controls { min-height: 62px; display: flex; align-items: center; gap: 1rem; padding: .55rem 1rem; border-top: 1px solid #ffffff12; }
+.game-controls p { color: var(--muted); font-size: .8rem; }.game-controls p strong { color: var(--text); }
+.move-buttons { display: flex; align-items: center; gap: .55rem; color: var(--muted); font: .68rem 'DM Mono', monospace; }
+.move-buttons button { width: 36px; height: 34px; border: 1px solid #ffffff2a; border-radius: 6px; background: #ffffff0a; color: white; font-size: 1.1rem; cursor: pointer; }
+.move-buttons button:disabled { opacity: .45; cursor: default; }
+.game-controls > .game-small-button { margin-left: auto; }
+.learning-panel { max-width: 1050px; margin: 2rem auto 0; padding: 1.3rem 1.5rem; border: 1px solid var(--border); border-radius: 12px; background: #111118bb; }
+.learning-panel h2 { font-size: 1.15rem; margin-bottom: .8rem; }
+.dependency-flow { display: flex; justify-content: center; align-items: center; gap: .55rem; flex-wrap: wrap; padding: .8rem; border-radius: 8px; background: #ffffff08; color: #d2ceff; font: .7rem 'DM Mono', monospace; text-align: center; }
+.dependency-flow b { color: var(--accent3); }
+.learning-panel ul { margin: 1rem 0 0 1rem; color: #b8b7c7; font-size: .82rem; }.learning-panel li { margin: .3rem 0; }
+.domain-note { margin-top: .8rem; padding: .7rem .8rem; border-left: 2px solid var(--accent3); color: #c9c8d3; background: #6dfabc0b; font-size: .82rem; }
+.domain-note strong { color: var(--accent3); }
+.is-paused .falling-component { animation-play-state: paused; }
+
+@media (max-width: 700px) {
+  .games-page { padding-top: 7.5rem; padding-bottom: 3rem; }
+  .game-card { grid-template-columns: 1fr; }
+  .game-card-art { min-height: 155px; }.game-card-art span { font-size: 5rem; }
+  .game-card-art::before { width: 130px; height: 130px; }.game-card-art::after { width: 95px; height: 95px; }
+  .game-card-copy { padding: 1.3rem; }
+  .game-hud { gap: .8rem; padding: .65rem; }.game-hud span { font-size: .52rem; }.game-hud strong { font-size: .78rem; }.game-hud .game-small-button { padding: .4rem; font-size: .65rem; }
+  .defender-board { height: 495px; }
+  .lane-grid { inset: auto .45rem .65rem; height: 192px; gap: .25rem; }
+  .architecture-lane { padding: .45rem .1rem .25rem; gap: .25rem; }
+  .architecture-lane > strong { writing-mode: vertical-rl; text-orientation: mixed; font-size: .65rem; max-height: 67px; }
+  .architecture-lane > small { font-size: .5rem; }
+  .lane-code { writing-mode: vertical-rl; font-size: .46rem; }
+  .game-feedback { inset: auto .5rem 205px; }.game-feedback p { font-size: .72rem; }
+  .game-controls { gap: .4rem; padding: .5rem; flex-wrap: wrap; justify-content: center; }
+  .game-controls p { font-size: .72rem; }.move-buttons { gap: .3rem; }.move-buttons span { font-size: .58rem; }
+  .game-controls > .game-small-button { margin-left: 0; }
+  .learning-panel { padding: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .falling-component { animation: none; }.game-primary-button, .game-small-button, .architecture-lane { transition: none; }
+}
