@@ -15,7 +15,6 @@ export default function Background({
 }: Props) {
   return (
     <motion.div
-      key={primaryColor}
       variants={backgroundAnimation}
       initial="initial"
       animate="animate"
@@ -29,7 +28,7 @@ export default function Background({
             ${secondaryColor}12 100%
           )
         `,
-        transition: "background 700ms ease",
+          transition: "background 700ms ease",
       }}
     >
       {/* Glow superior */}
@@ -37,6 +36,7 @@ export default function Background({
         className="experience-background-glow experience-background-glow-top"
         style={{
           background: primaryColor,
+          transition: "background-color 700ms ease",
         }}
       />
 
@@ -45,6 +45,7 @@ export default function Background({
         className="experience-background-glow experience-background-glow-bottom"
         style={{
           background: secondaryColor,
+          transition: "background-color 700ms ease",
         }}
       />
 

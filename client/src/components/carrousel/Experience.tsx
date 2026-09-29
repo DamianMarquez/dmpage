@@ -6,7 +6,8 @@ import ProgressBar from "./ProgressBar";
 import ProjectCard from "./ProjectCard";
 import ProjectTimeline from "./ProjectTimeline";
 import useExperience from "./useExperience";
-import  type{ Company } from "./types";
+import { useRef } from "react";
+import type { Company } from "./types";
 import "./Experience.css";
 
 interface Props {
@@ -16,6 +17,9 @@ interface Props {
 export default function Experience({
   companies,
 }: Props) {
+  const experienceRef = useRef<HTMLElement>(null);
+  const companyTimelineRef = useRef<HTMLDivElement>(null);
+
   const {
     company,
     project,
@@ -38,11 +42,13 @@ export default function Experience({
     swipeHandlers,
   } = useExperience({
     companies,
+    scrollTargetRef: companyTimelineRef,
   });
 
   return (
     <section
-      {...swipeHandlers}
+    {...swipeHandlers}
+      ref={experienceRef}
       className="experience-carousel-section"
     >
       <Background
@@ -69,6 +75,7 @@ export default function Experience({
           {/* Timeline empresas */}
 
           <CompanyTimeline
+            ref={companyTimelineRef}
             companies={companies}
             currentIndex={companyIndex}
             onSelect={goToCompany}

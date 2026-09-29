@@ -149,6 +149,7 @@
   margin: 0 auto;
   padding: 5rem 1rem;
   touch-action: pan-y;
+  scroll-margin-top: 4.5rem;
 }
 
 .experience-background {
@@ -228,9 +229,24 @@
 
 .company-timeline,
 .project-timeline {
+  position: relative;
   width: 100%;
-  overflow-x: auto;
+  scroll-margin-top: 4.5rem;
   scrollbar-width: none;
+}
+
+.company-timeline-viewport,
+.project-timeline-scroll {
+  position: relative;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.company-timeline-viewport::-webkit-scrollbar,
+.project-timeline-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .company-timeline::-webkit-scrollbar,
@@ -247,11 +263,62 @@
   padding: 1rem .5rem;
 }
 
+.company-timeline-viewport::before,
+.company-timeline-viewport::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 2.5rem;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.company-timeline-viewport::before {
+  left: 0;
+  background: linear-gradient(90deg, rgb(17 17 24 / 55%), transparent);
+}
+
+.company-timeline-viewport::after {
+  right: 0;
+  background: linear-gradient(270deg, rgb(17 17 24 / 55%), transparent);
+}
+
+.company-timeline-viewport:has(.company-timeline-arrow-left:not(:disabled))::before,
+.company-timeline-viewport:has(.company-timeline-arrow-right:not(:disabled))::after {
+  opacity: 1;
+}
+
+.company-timeline-arrow {
+  position: absolute !important;
+  top: 50%;
+  z-index: 2;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--text) !important;
+  background: rgb(17 17 24 / 88%) !important;
+  box-shadow: 0 .25rem .75rem rgb(0 0 0 / 22%);
+  transform: translateY(-50%);
+}
+
+.company-timeline-arrow-left { left: .25rem; }
+.company-timeline-arrow-right { right: .25rem; }
+
+.company-timeline-arrow:focus-visible,
+.company-timeline-button:focus-visible,
+.project-timeline-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .company-timeline-item,
 .project-timeline-item {
   display: flex;
   align-items: flex-start;
   flex: 0 0 auto;
+  scroll-snap-align: center;
 }
 
 .company-timeline-button,
@@ -345,7 +412,15 @@
   border-radius: inherit;
 }
 
-.company-header-wrapper { width: 100%; }
+.company-header-wrapper {
+  display: grid;
+  width: 100%;
+  min-height: 25.5rem;
+}
+
+.company-header-animation {
+  grid-area: 1 / 1;
+}
 
 .company-header-card,
 .project-card {
@@ -482,6 +557,8 @@
 .experience-progress-value { color: var(--muted); font-size: .75rem; }
 
 .project-card-content { padding: 2rem; }
+.project-card-wrapper { display: grid; }
+.project-card-animation { grid-area: 1 / 1; }
 .project-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .project-card-heading { min-width: 0; }
 .project-card-title { margin: 0; color: var(--text); font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.1; }
@@ -511,6 +588,7 @@
   .experience-background-inner { padding: 1.25rem .75rem; }
   .experience-carousel-content { gap: 1.5rem; }
   .company-header-content { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.25rem; text-align: center; }
+  .company-header-wrapper { min-height: 38rem; }
   .company-header-logo-column { justify-content: center; }
   .company-header-side-band { display: none; }
   .company-header-website { justify-content: center; }

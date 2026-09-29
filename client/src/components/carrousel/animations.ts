@@ -12,7 +12,7 @@ export const companyAnimation: Variants = {
     x: 0,
     scale: 1,
     transition: {
-      duration: 0.45,
+      duration: 0.85,
       ease: "easeOut",
     },
   },
@@ -22,7 +22,7 @@ export const companyAnimation: Variants = {
     x: -80,
     scale: 0.96,
     transition: {
-      duration: 0.35,
+      duration: 0.7,
       ease: "easeIn",
     },
   },
@@ -38,7 +38,7 @@ export const projectAnimation: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.35,
+      duration: 0.65,
     },
   },
 
@@ -46,7 +46,7 @@ export const projectAnimation: Variants = {
     opacity: 0,
     y: -20,
     transition: {
-      duration: 0.25,
+      duration: 0.5,
     },
   },
 };
@@ -74,7 +74,7 @@ export const backgroundAnimation: Variants = {
   animate: {
     opacity: 1,
     transition: {
-      duration: 0.8,
+      duration: 1.1,
     },
   },
 };

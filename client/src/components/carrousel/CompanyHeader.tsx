@@ -12,14 +12,15 @@ interface Props {
 export default function CompanyHeader({ company }: Props) {
   return (
     <div className="company-header-wrapper">
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
           key={company.id}
+          className="company-header-animation"
           variants={companyAnimation}
           initial="initial"
           animate="animate"
           exit="exit"
-          >
+        >
           <Card
             elevation={0}
             className="company-header-card"

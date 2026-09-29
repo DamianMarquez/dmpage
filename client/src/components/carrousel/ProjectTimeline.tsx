@@ -16,18 +16,31 @@ export default function ProjectTimeline({
   onSelect,
 }: Props) {
   const activeRef = useRef<HTMLButtonElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    activeRef.current?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
+    const container = scrollRef.current;
+    const active = activeRef.current;
+    if (!container || !active) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const targetLeft = container.scrollLeft
+      + activeRect.left
+      - containerRect.left
+      - (container.clientWidth - activeRect.width) / 2;
+
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
     });
   }, [currentIndex]);
 
   return (
     <div className="project-timeline">
-      <div className="project-timeline-scroll">
+      <div ref={scrollRef} className="project-timeline-scroll">
         {projects.map((project, index) => {
           const completed = index < currentIndex;
           const active = index === currentIndex;
@@ -52,7 +65,7 @@ export default function ProjectTimeline({
                     borderColor: primaryColor,
                   }}
                   transition={{
-                    duration: .30,
+                    duration: .55,
                   }}
                   className="project-timeline-dot"
                 >
@@ -101,7 +114,7 @@ export default function ProjectTimeline({
                       backgroundColor: primaryColor,
                     }}
                     transition={{
-                      duration: .35,
+                      duration: .6,
                     }}
                     className="project-timeline-connector-progress"
                   />

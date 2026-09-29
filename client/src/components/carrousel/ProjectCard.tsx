@@ -24,14 +24,16 @@ export default function ProjectCard({
   primaryColor,
 }: Props) {
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={project.id}
-        variants={projectAnimation}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
+    <div className="project-card-wrapper">
+      <AnimatePresence initial={false} mode="sync">
+        <motion.div
+          key={project.id}
+          className="project-card-animation"
+          variants={projectAnimation}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
         <Card
           elevation={0}
           className="project-card"
@@ -227,7 +229,8 @@ export default function ProjectCard({
 
         </Card>
 
-      </motion.div>
-    </AnimatePresence>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }

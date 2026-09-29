@@ -1,16 +1,26 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { useSwipeable } from "react-swipeable";
 import type { Company } from "./types";
 
 interface UseExperienceProps {
   companies: Company[];
+  scrollTargetRef: RefObject<HTMLElement | null>;
 }
 
 export default function useExperience({
   companies,
+  scrollTargetRef,
 }: UseExperienceProps) {
   const [companyIndex, setCompanyIndex] = useState(0);
   const [projectIndex, setProjectIndex] = useState(0);
+  const scrollAnimationRef = useRef<number | null>(null);
 
   const company = companies[companyIndex];
   const project = company?.projects?.[projectIndex];
@@ -33,6 +43,57 @@ export default function useExperience({
     return total;
   }, [companies, companyIndex, projectIndex]);
 
+  const scrollToExperience = useCallback(() => {
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    requestAnimationFrame(() => {
+      const target = scrollTargetRef.current;
+      if (!target) return;
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      const targetStyle = window.getComputedStyle(target);
+      const offset = parseFloat(targetStyle.scrollMarginTop) || 0;
+      const start = window.scrollY;
+      const destination = Math.max(
+        0,
+        target.getBoundingClientRect().top + start - offset
+      );
+
+      if (reduceMotion || Math.abs(destination - start) < 1) {
+        window.scrollTo(0, destination);
+        return;
+      }
+
+      const duration = 950;
+      const startedAt = performance.now();
+      const easeInOut = (value: number) =>
+        value < 0.5
+          ? 2 * value * value
+          : 1 - Math.pow(-2 * value + 2, 2) / 2;
+
+      const animate = (now: number) => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        window.scrollTo(
+          0,
+          start + (destination - start) * easeInOut(progress)
+        );
+
+        if (progress < 1) {
+          scrollAnimationRef.current = requestAnimationFrame(animate);
+        } else {
+          scrollAnimationRef.current = null;
+        }
+      };
+
+      scrollAnimationRef.current = requestAnimationFrame(animate);
+    });
+  }, [scrollTargetRef]);
+
   // Avanzar
   const next = useCallback(() => {
     if (!company) return;
@@ -43,8 +104,9 @@ export default function useExperience({
     if (companyIndex < companies.length - 1) {
       setCompanyIndex((c) => c + 1);
       setProjectIndex(0);
+      scrollToExperience();
     }
-  }, [company, companies, companyIndex, projectIndex]);
+  }, [company, companies, companyIndex, projectIndex, scrollToExperience]);
 
   // Retroceder
   const previous = useCallback(() => {
@@ -56,16 +118,20 @@ export default function useExperience({
       const previousCompany = companies[companyIndex - 1];
       setCompanyIndex((c) => c - 1);
       setProjectIndex(previousCompany.projects.length - 1);
+      scrollToExperience();
     }
-  }, [companyIndex, projectIndex, companies]);
+  }, [companyIndex, projectIndex, companies, scrollToExperience]);
 
   // Ir a una empresa
   const goToCompany = useCallback((index: number) => {
     if (index < 0) return;
     if (index >= companies.length) return;
+    if (index === companyIndex) return;
+
     setCompanyIndex(index);
     setProjectIndex(0);
-  }, [companies]);
+    scrollToExperience();
+  }, [companies, companyIndex, scrollToExperience]);
 
   // Ir a un proyecto
   const goToProject = useCallback((index: number) => {
@@ -105,12 +171,14 @@ export default function useExperience({
   }, [next, previous]);
 
   const first = () => {
+    if (companyIndex !== 0) scrollToExperience();
     setCompanyIndex(0);
     setProjectIndex(0);
   };
 
   const last = () => {
     const lastCompany = companies[companies.length - 1];
+    if (companyIndex !== companies.length - 1) scrollToExperience();
     setCompanyIndex(companies.length - 1);
     setProjectIndex(lastCompany.projects.length - 1);
   };
