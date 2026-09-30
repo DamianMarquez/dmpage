@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Cargar nodenv para que npm esté disponible
 export PATH="$HOME/.nodenv/shims:$HOME/.nodenv/bin:$PATH"
@@ -12,8 +13,7 @@ echo "Base dir: $BASE_DIR"
 
 echo "Building client..."
 cd "$BASE_DIR/client"
-rm -rf node_modules package-lock.json
-npm install
+npm ci --include=dev
 npm run build
 
 echo "Copying to httpdocs..."
@@ -21,6 +21,6 @@ cp -r "$BASE_DIR/client/dist/"* "$BASE_DIR/"
 
 echo "Installing server deps..."
 cd "$BASE_DIR/server"
-npm install
+npm ci --omit=dev
 
 echo "Done! Restart Node.js from Plesk panel."
