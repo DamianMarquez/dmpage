@@ -3,10 +3,12 @@ import { initialPositions, modules, tickets, TOTAL_WORK_UNITS } from './data';
 import { ACTION_COSTS, clampSatisfaction, STARTING_SATISFACTION } from './rules';
 import type { ComponentKind, GameEdge, GameNode, GameState, ModuleNodeData, StakeholderRole, ValidationReport } from './types';
 
-export const STORAGE_KEY = 'monolith-mayhem-v2';
+export const STORAGE_KEY = 'monolith-mayhem-v3';
+const PREVIOUS_STORAGE_KEY = 'monolith-mayhem-v2';
+export const DELIVERY_TIME_REWARD = 3;
 export function createInitialState(): GameState {
   const nodes: GameNode[] = modules.map((module) => ({ id: module.id, type: 'group', position: initialPositions[module.id], style: { width: 260, height: 190 }, data: { name: module.name, description: module.description, color: module.color, layer: module.layer, collapsed: false } satisfies ModuleNodeData }));
-  return { currentLevel: 1, nodes, edges: [], completedTickets: [], activeTicketIndex: 0, score: 0, remainingTime: TOTAL_WORK_UNITS, stakeholders: { ...STARTING_SATISFACTION }, status: 'playing', godModuleAccepted: false, changeEventIndex: 0, paymentChoice: null, lastFeedback: '', lastValidation: null };
+  return { currentLevel: 1, nodes, edges: [], completedTickets: [], activeTicketIndex: 0, score: 0, remainingTime: TOTAL_WORK_UNITS, timeCapacity: TOTAL_WORK_UNITS, stakeholders: { ...STARTING_SATISFACTION }, status: 'playing', godModuleAccepted: false, changeEventIndex: 0, paymentChoice: null, lastFeedback: '', lastValidation: null, lastConsultation: null };
 }
 export type GameAction =
   | { type: 'nodes'; changes: NodeChange<GameNode>[] }
@@ -88,18 +90,23 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       let score = charged.score;
       const qaIssueCount = action.report.missingComponents.length + action.report.missingDependencies.length + action.report.warnings.length;
       let lastFeedback = action.report.valid ? `Ticket completado. ${action.explanation} QA reporta ${qaIssueCount} observación(es).` : `QA encontró ${qaIssueCount} problema(s). −${cost} unidades.`;
+      let remainingTime = charged.remainingTime;
+      let timeCapacity = charged.timeCapacity;
       if (action.report.valid) {
-        completedTickets = completedTickets.includes(action.ticketId) ? completedTickets : [...completedTickets, action.ticketId];
+        const newlyCompleted = !completedTickets.includes(action.ticketId);
+        completedTickets = newlyCompleted ? [...completedTickets, action.ticketId] : completedTickets;
         activeTicketIndex += 1; score += 100; stakeholders = { ...stakeholders, po: clampSatisfaction(stakeholders.po + 10) };
+        if (newlyCompleted) { remainingTime += DELIVERY_TIME_REWARD; timeCapacity += DELIVERY_TIME_REWARD; }
+        lastFeedback += ` +${DELIVERY_TIME_REWARD} unidades por la entrega.`;
       }
       lastFeedback += ` Infra revisó el acoplamiento (${action.coupling}/100): −${infraPenalty} satisfacción.`;
       if (cycleWarnings || sharedWarnings) lastFeedback += ' Infra cuestiona los límites: hay ciclos o demasiada lógica compartida.';
-      const next = settle({ ...charged, stakeholders, completedTickets, activeTicketIndex, score, lastFeedback, lastValidation: action.report, currentLevel: completedTickets.length >= 2 ? 2 : 1 });
+      const next = settle({ ...charged, remainingTime, timeCapacity, stakeholders, completedTickets, activeTicketIndex, score, lastFeedback, lastValidation: action.report, currentLevel: completedTickets.length >= 2 ? 2 : 1 });
       return next;
     }
     case 'consult': {
       const cost = ACTION_COSTS.consultation; const charged = spend(state, cost); if (!charged) return blocked(state, cost);
-      return settle({ ...charged, lastFeedback: `${action.role.toUpperCase()} · ${action.message} (consulta: −${cost} unidades)` });
+      return settle({ ...charged, lastFeedback: `${action.role.toUpperCase()} · ${action.message} (consulta: −${cost} unidades)`, lastConsultation: { role: action.role, message: action.message } });
     }
     case 'god-module': return { ...state, godModuleAccepted: true };
     case 'change-event': {
@@ -117,9 +124,15 @@ export function saveGame(state: GameState, storage: Pick<Storage, 'setItem'> = l
 }
 export function loadGame(storage: Pick<Storage, 'getItem'> = localStorage): GameState {
   try {
-    const raw = storage.getItem(STORAGE_KEY); if (!raw) return createInitialState();
+    const raw = storage.getItem(STORAGE_KEY) ?? storage.getItem(PREVIOUS_STORAGE_KEY); if (!raw) return createInitialState();
     const parsed = JSON.parse(raw) as Partial<GameState>;
     if (!Array.isArray(parsed.nodes) || !Array.isArray(parsed.edges)) return createInitialState();
-    return { ...createInitialState(), ...parsed } as GameState;
+    const priorDeliveries = Array.isArray(parsed.completedTickets) ? new Set(parsed.completedTickets).size : 0;
+    const migrated = parsed.timeCapacity === undefined;
+    return { ...createInitialState(), ...parsed,
+      timeCapacity: parsed.timeCapacity ?? TOTAL_WORK_UNITS + priorDeliveries * DELIVERY_TIME_REWARD,
+      remainingTime: (parsed.remainingTime ?? TOTAL_WORK_UNITS) + (migrated ? priorDeliveries * DELIVERY_TIME_REWARD : 0),
+      lastConsultation: parsed.lastConsultation ?? null,
+    } as GameState;
   } catch { return createInitialState(); }
 }

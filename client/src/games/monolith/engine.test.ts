@@ -84,6 +84,8 @@ describe('work budget and team feedback', () => {
     expect(state.stakeholders.qa).toBe(40);
     expect(state.lastValidation?.valid).toBe(false);
     expect(state.lastFeedback).toContain('QA encontró');
+    expect(state.timeCapacity).toBe(TOTAL_WORK_UNITS);
+    expect(state.completedTickets).toHaveLength(0);
   });
   it('does not execute an action when the remaining budget cannot cover it', () => {
     const lowTime = { ...createInitialState(), remainingTime: ACTION_COSTS.dependency - 1 };
@@ -97,12 +99,23 @@ describe('work budget and team feedback', () => {
     expect(state.remainingTime).toBe(TOTAL_WORK_UNITS - ACTION_COSTS.consultation);
     expect(state.stakeholders.po).toBe(47);
     expect(state.lastFeedback).toContain('Aclaración del ticket');
+    expect(state.lastConsultation).toMatchObject({ role: 'po', message: 'Aclaración del ticket.' });
   });
   it('reduces infrastructure trust based on coupling during QA review', () => {
     const state = gameReducer(createInitialState(), { type: 'validate-ticket', ticketId: tickets[0].id, report: validReport, coupling: 40, cycleCount: 0, sharedAbuse: false, explanation: 'ok' });
     expect(state.stakeholders.infra).toBe(56);
     expect(state.stakeholders.qa).toBe(65);
     expect(state.stakeholders.po).toBe(58);
+    expect(state.remainingTime).toBe(TOTAL_WORK_UNITS - ACTION_COSTS.validation + 3);
+    expect(state.timeCapacity).toBe(TOTAL_WORK_UNITS + 3);
+    expect(state.completedTickets).toEqual([tickets[0].id]);
+  });
+  it('keeps consultation as advice and charges for a concrete infrastructure recommendation', () => {
+    const state = { ...createInitialState(), nodes, edges: [edge('orders-service', 'users-repository')] };
+    const consulted = gameReducer(state, { type: 'consult', role: 'infra', message: 'Acceso entre dominios: reemplazá la conexión directa por el servicio público.' });
+    expect(consulted.remainingTime).toBe(TOTAL_WORK_UNITS - ACTION_COSTS.consultation);
+    expect(consulted.lastConsultation?.message).toContain('servicio público');
+    expect(consulted.edges).toEqual(state.edges);
   });
   it('ends the game when QA trust reaches zero', () => {
     let state = createInitialState();
@@ -118,7 +131,7 @@ describe('work budget and team feedback', () => {
     const changed = gameReducer(state, { type: 'change-event', message: 'Cambio de proveedor.' });
     const decided = gameReducer(changed, { type: 'payment-choice', choice: 'module' });
     expect(decided.status).toBe('won');
-    expect(decided.remainingTime).toBe(1);
+    expect(decided.remainingTime).toBe(4);
   });
   it('ends the game when the work clock reaches zero', () => {
     const lastUnit = { ...createInitialState(), remainingTime: 1 };
@@ -128,9 +141,17 @@ describe('work budget and team feedback', () => {
 
 describe('local progress', () => {
   it('saves and restores the work budget, stakeholders, architecture and game status', () => {
-    const storage = new MemoryStorage(); const state = { ...createInitialState(), remainingTime: 34, stakeholders: { po: 42, qa: 55, infra: 48 }, status: 'lost' as const, score: 180 };
+    const storage = new MemoryStorage(); const state = { ...createInitialState(), remainingTime: 34, timeCapacity: 66, stakeholders: { po: 42, qa: 55, infra: 48 }, status: 'lost' as const, score: 180 };
     saveGame(state, storage);
-    expect(loadGame(storage)).toMatchObject({ remainingTime: 34, stakeholders: state.stakeholders, status: 'lost', score: 180 });
+    expect(loadGame(storage)).toMatchObject({ remainingTime: 34, timeCapacity: 66, stakeholders: state.stakeholders, status: 'lost', score: 180 });
+  });
+  it('migrates older saved deliveries and grants their new time rewards', () => {
+    const storage = new MemoryStorage();
+    const oldState: Record<string, unknown> = { ...createInitialState(), remainingTime: 20, completedTickets: tickets.slice(0, 2).map((ticket) => ticket.id) };
+    delete oldState.timeCapacity;
+    delete oldState.lastConsultation;
+    storage.setItem('monolith-mayhem-v2', JSON.stringify(oldState));
+    expect(loadGame(storage)).toMatchObject({ remainingTime: 26, timeCapacity: 66, completedTickets: tickets.slice(0, 2).map((ticket) => ticket.id) });
   });
   it('starts a fresh game when saved data is invalid', () => {
     const storage = new MemoryStorage(); storage.setItem(STORAGE_KEY, '{broken');

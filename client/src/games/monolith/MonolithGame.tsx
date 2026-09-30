@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import SeoHead from '../../seo/SeoHead';
 import { analyzeArchitecture, calculateChangeImpact, calculateMetrics, createValidationReport, listChangeImpact } from './engine';
-import { componentCatalog, modules, tickets, TOTAL_WORK_UNITS } from './data';
+import { componentCatalog, modules, tickets } from './data';
 import { ACTION_COSTS } from './rules';
 import { gameReducer, loadGame, saveGame } from './state';
 import type { ComponentNodeData, GameEdge, GameNode, GameState, ModuleNodeData, StakeholderRole } from './types';
@@ -105,15 +105,33 @@ function MonolithGameContent() {
 
   const consult = (role: StakeholderRole) => {
     let message = '';
-    if (role === 'po') message = ticket.poClarification;
+    if (role === 'po') message = `${ticket.poClarification} Usá esta aclaración para ajustar el alcance antes de validar.`;
     if (role === 'qa') {
       const report = createValidationReport(ticket, state.nodes, state.edges);
       const missing = [...report.missingComponents.map((id) => componentCatalog.find((component) => component.id === id)?.name ?? id), ...report.missingDependencies.map(([source, target]) => `${componentCatalog.find((component) => component.id === source)?.name} → ${componentCatalog.find((component) => component.id === target)?.name}`)];
       message = `${ticket.qaFocus} ${missing.length ? `Veo ${missing.length} posible(s) brecha(s), pero la validación formal sigue pendiente.` : 'No veo brechas en los criterios actuales.'}`;
     }
     if (role === 'infra') {
-      const heaviest = [...state.edges].sort((a, b) => (b.data?.couplingWeight ?? 1) - (a.data?.couplingWeight ?? 1))[0];
-      message = `El acoplamiento actual es ${metrics.coupling}/100 y la complejidad ${metrics.complexity}/100. ${heaviest ? `Revisaría ${state.nodes.find((node) => node.id === heaviest.source)?.data.name} → ${state.nodes.find((node) => node.id === heaviest.target)?.data.name}.` : 'Todavía no hay dependencias que revisar.'}`;
+      const risks = analyzeArchitecture(state.nodes, state.edges);
+      const priority = risks.find((warning) => warning.title === 'Dependencia circular')
+        ?? risks.find((warning) => warning.title === 'Acceso entre dominios')
+        ?? risks.find((warning) => warning.id === 'shared-abuse')
+        ?? risks.find((warning) => warning.title === 'God Module' || warning.title === 'Acoplamiento alto');
+      const componentName = (id: string) => String(state.nodes.find((node) => node.id === id)?.data.name ?? id);
+      if (priority?.title === 'Dependencia circular') {
+        message = `${priority.message} Recomendación: quitá una de las conexiones del ciclo para restablecer una dirección de dependencia.`;
+      } else if (priority?.title === 'Acceso entre dominios') {
+        message = `${priority.message} Recomendación: reemplazá esa conexión directa al repositorio por el servicio público del módulo propietario.`;
+      } else if (priority?.id === 'shared-abuse') {
+        message = `${priority.message} Recomendación: mové la lógica de dominio al módulo que la posee y conectá los consumidores con su servicio.`;
+      } else if (priority) {
+        message = `${priority.message} Recomendación: distribuí responsabilidades y eliminá dependencias externas que no sean necesarias.`;
+      } else {
+        const edge = [...state.edges].sort((a, b) => (b.data?.couplingWeight ?? 1) - (a.data?.couplingWeight ?? 1))[0];
+        message = edge
+          ? `Acoplamiento ${metrics.coupling}/100, complejidad ${metrics.complexity}/100. Recomendación: revisá ${componentName(edge.source)} → ${componentName(edge.target)} y eliminá la dependencia si no es necesaria.`
+          : `Acoplamiento ${metrics.coupling}/100 y complejidad ${metrics.complexity}/100. No hay riesgos detectados; mantené los límites entre módulos y validá el ticket cuando esté listo.`;
+      }
     }
     dispatch({ type: 'consult', role, message });
   };
@@ -140,12 +158,12 @@ function MonolithGameContent() {
     { role: 'qa', label: 'QA', value: state.stakeholders.qa },
     { role: 'infra', label: 'Infraestructura', value: state.stakeholders.infra },
   ];
-  const timePercent = (state.remainingTime / TOTAL_WORK_UNITS) * 100;
+  const timePercent = (state.remainingTime / state.timeCapacity) * 100;
 
   return <><SeoHead page="monolithMayhem" /><Navbar user={null} onOpenLogin={() => undefined} showAuthControls={false} />
     <main className="games-page monolith-page"><header className="defender-heading monolith-heading"><Link className="games-back-link" to="/games">← Todos los juegos</Link><p className="games-eyebrow">JUEGO 02 · ARQUITECTURA</p><h1>Monolith Mayhem</h1><p>Construí un monolito. Mantenelo sano. Sobreviví a los cambios.</p></header>
       <section className="monolith-shell"><header className="monolith-hud"><div className="hud-title"><span className="monolith-mark">⬡</span><div><strong>MONOLITH MAYHEM</strong><small>NIVEL {state.currentLevel} · {state.currentLevel > 1 ? 'MODULAR MONOLITH' : 'BASIC MONOLITH'}</small></div></div>
-        <div className="work-clock"><span>TIEMPO DE TRABAJO</span><strong>{state.remainingTime} <small>/ 60</small></strong><div><i style={{ width: `${timePercent}%` }} /></div></div>
+        <div className="work-clock"><span>TIEMPO DE TRABAJO</span><strong>{state.remainingTime} <small>/ {state.timeCapacity}</small></strong><div><i style={{ width: `${timePercent}%` }} /></div></div>
         <div className="hud-score"><span>SCORE</span><strong>{state.score + metrics.score}</strong></div><div className="health-meter"><span>ARCHITECTURE HEALTH</span><strong>{metrics.architectureHealth}%</strong><div><i style={{ width: `${metrics.architectureHealth}%` }} /></div></div><button className="game-small-button" onClick={reset}>↻ Reiniciar</button>
       </header>
       <div className="stakeholder-strip">{healthMeters.map(({ role, label, value }) => <div className={`stakeholder-meter ${value < 30 ? 'critical' : ''}`} key={role}><span>{label}</span><strong>{value}%</strong><div><i style={{ width: `${value}%` }} /></div></div>)}</div>
@@ -162,12 +180,13 @@ function MonolithGameContent() {
         {state.lastValidation && <article className={`qa-report ${state.lastValidation.valid ? 'clean' : 'failed'}`}><strong>Último informe QA · {state.lastValidation.valid ? 'Ticket válido' : 'Faltan criterios'}</strong>{state.lastValidation.missingComponents.length > 0 && <p>Piezas: {state.lastValidation.missingComponents.map((id) => componentCatalog.find((component) => component.id === id)?.name ?? id).join(', ')}</p>}{state.lastValidation.missingDependencies.length > 0 && <p>Conexiones: {state.lastValidation.missingDependencies.map(([from, to]) => `${componentCatalog.find((component) => component.id === from)?.name} → ${componentCatalog.find((component) => component.id === to)?.name}`).join(', ')}</p>}{state.lastValidation.warnings.slice(0, 3).map((warning) => <p key={warning.id}>{warning.title}: {warning.message}</p>)}</article>}
       </section>
       <section className="event-panel"><div className="panel-kicker">04 · STAKEHOLDERS Y EVENTOS</div><h2>El equipo tiene algo que decir</h2><p>Las consultas cuestan tiempo. Las revisiones de QA e Infra afectan su satisfacción.</p>
-        <div className="consultation-actions"><button className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('po')}>Preguntar al PO ·{ACTION_COSTS.consultation}</button><button className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('qa')}>Consultar QA ·{ACTION_COSTS.consultation}</button><button className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('infra')}>Consultar Infra ·{ACTION_COSTS.consultation}</button></div>
+        <div className="consultation-actions"><button title="Aclara el alcance del ticket" className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('po')}>PO · aclara alcance ·{ACTION_COSTS.consultation}</button><button title="Revisa posibles brechas antes de validar" className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('qa')}>QA · busca brechas ·{ACTION_COSTS.consultation}</button><button title="Prioriza un riesgo y recomienda una acción" className="game-small-button" disabled={state.status !== 'playing'} onClick={() => consult('infra')}>Infra · prioriza riesgos ·{ACTION_COSTS.consultation}</button></div>
+        {state.lastConsultation && <article className="consultation-report"><strong>Consulta a {state.lastConsultation.role === 'po' ? 'Product Owner' : state.lastConsultation.role === 'qa' ? 'QA' : 'Infraestructura'}</strong><p>{state.lastConsultation.message}</p><small>Orientación solamente: la arquitectura no cambia hasta que hagas la acción.</small></article>}
         {state.completedTickets.length >= 3 && <><div className="advanced-row"><div><h3>Cambio de proveedor de pagos</h3><p>Revisá cuántos componentes impacta.</p></div><button className="game-small-button" disabled={state.status !== 'playing'} onClick={simulateChange}>Simular ·{ACTION_COSTS.changeEvent}</button></div><div className="advanced-row"><div><h3>Atajo: CommonService</h3><p>Concentrá responsabilidades y observá las consecuencias.</p></div><button className="game-small-button" disabled={state.status !== 'playing' || state.godModuleAccepted} onClick={handleGod}>{state.godModuleAccepted ? 'Aplicado' : 'Aplicar atajo'}</button></div></>}
         {state.completedTickets.length >= 5 && <div className="advanced-row payment-choice"><div><h3>¿Qué hacer con Payments?</h3><p>La decisión también consume tiempo.</p></div><div className="choice-buttons">{(['monolith', 'module', 'microservice'] as const).map((choice) => <button key={choice} disabled={state.status !== 'playing'} className={state.paymentChoice === choice ? 'chosen' : ''} onClick={() => dispatch({ type: 'payment-choice', choice })}>{choice === 'monolith' ? `Monolito ·${ACTION_COSTS.paymentChoice}` : choice === 'module' ? `Módulo ·${ACTION_COSTS.paymentChoice}` : `Microservicio ·${ACTION_COSTS.paymentChoice}`}</button>)}</div></div>}
         {state.paymentChoice && <div className="choice-result"><strong>{state.paymentChoice === 'monolith' ? '1 deployment · baja complejidad operativa' : state.paymentChoice === 'module' ? '1 deployment · límites internos más claros · costo de modularización' : '2 deployments · complejidad operativa alta · comunicación por red'}</strong></div>}
       </section></div>
-      <section className="learning-footer"><h2>Una sola aplicación. Frontend y backend. Un deployment.</h2><p>Las capas y los módulos tienen límites explícitos sin exigir microservicios.</p><div className="level-strip"><span>NIVEL {state.currentLevel} · {state.currentLevel === 1 ? 'BASIC MONOLITH' : 'MODULAR MONOLITH'}</span><span>Quedan {state.remainingTime} unidades</span><span>PO +10 por cada ticket entregado · −1 por unidad gastada</span></div></section>
+      <section className="learning-footer"><h2>Una sola aplicación. Frontend y backend. Un deployment.</h2><p>Las capas y los módulos tienen límites explícitos sin exigir microservicios.</p><div className="level-strip"><span>NIVEL {state.currentLevel} · {state.currentLevel === 1 ? 'BASIC MONOLITH' : 'MODULAR MONOLITH'}</span><span>Quedan {state.remainingTime}/{state.timeCapacity} unidades</span><span>Entrega: +3 tiempo y +10 PO · −1 PO por unidad gastada</span></div></section>
       {state.status !== 'playing' && <div className="game-overlay"><div className="finish-content"><span className="overlay-icon">{state.status === 'won' ? '✦' : '◇'}</span><h2>{state.status === 'won' ? '¡Entrega completa!' : 'La partida terminó'}</h2><p>{state.status === 'won' ? 'Los cinco tickets están completos. Revisá cómo quedó la arquitectura y qué aprendió el equipo.' : state.remainingTime <= 0 ? 'Se agotó el presupuesto de trabajo.' : `Un área del equipo perdió la confianza: PO ${state.stakeholders.po}% · QA ${state.stakeholders.qa}% · Infra ${state.stakeholders.infra}%.`}</p><p>Score final: <strong>{state.score + metrics.score}</strong> · tickets entregados: <strong>{state.completedTickets.length}/{tickets.length}</strong></p><button className="game-primary-button" onClick={reset}>Nueva partida</button></div></div>}
       </section>
       {feedback && state.status === 'playing' && <div className="game-toast" role="status"><p>{feedback}</p><button onClick={() => setFeedback('')} aria-label="Cerrar">×</button></div>}
