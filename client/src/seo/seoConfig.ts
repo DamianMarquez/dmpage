@@ -8,7 +8,8 @@ export type SeoPageKey =
   | "skills"
   | "contact"
   | "games"
-  | "hexagonalDefender";
+  | "hexagonalDefender"
+  | "monolithMayhem";
 
 export interface SeoPage {
   path: string;
@@ -73,5 +74,12 @@ export const seoPages: Record<SeoPageKey, SeoPage> = {
     description: "Defendé tu arquitectura. Identificá dónde pertenece cada componente de una Arquitectura Hexagonal.",
     heading: "Hexagonal Defender",
     breadcrumb: "Hexagonal Defender",
+  },
+  monolithMayhem: {
+    path: "/games/monolith-mayhem",
+    title: "Monolith Mayhem | Juegos educativos",
+    description: "Construí un monolito modular y aprendé cómo el acoplamiento afecta los cambios.",
+    heading: "Monolith Mayhem",
+    breadcrumb: "Monolith Mayhem",
   },
 };

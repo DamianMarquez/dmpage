@@ -23,6 +23,15 @@ export default function GamesPage() {
             <Link className="game-primary-button" to="/games/hexagonal-defender">Iniciar juego <span aria-hidden="true">→</span></Link>
           </div>
         </article>
+        <article className="game-card monolith-game-card">
+          <div className="game-card-art" aria-hidden="true"><span>⬡</span><i>↗</i><b>◈</b></div>
+          <div className="game-card-copy">
+            <span className="game-card-tag">ARQUITECTURA · 10 MIN</span>
+            <h2>Monolith Mayhem</h2>
+            <p>Construí módulos, conectá sus componentes y descubrí cómo las decisiones arquitectónicas cambian el impacto de cada cambio.</p>
+            <Link className="game-primary-button" to="/games/monolith-mayhem">Iniciar juego <span aria-hidden="true">→</span></Link>
+          </div>
+        </article>
       </main>
     </>
   );

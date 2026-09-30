@@ -7,6 +7,7 @@ import SkillsPage from '../pages/sections/SkillsPage';
 import ContactPage from '../pages/sections/ContactPage';
 import GamesPage from '../pages/games/GamesPage';
 import HexagonalDefender from '../pages/games/HexagonalDefender';
+import MonolithRoute from '../games/monolith/MonolithRoute';
 
 export const router = createBrowserRouter([
   {
@@ -36,5 +37,9 @@ export const router = createBrowserRouter([
   {
     path: '/games/hexagonal-defender',
     element: <HexagonalDefender />,
+  },
+  {
+    path: '/games/monolith-mayhem',
+    element: <MonolithRoute />,
   },
 ]);
