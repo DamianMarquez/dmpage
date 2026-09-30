@@ -1,4 +1,5 @@
-import type { ArchitectureMetrics, ArchitectureTicket, ArchitectureWarning, GameEdge, GameNode } from './types';
+import type { ArchitectureMetrics, ArchitectureTicket, ArchitectureWarning, GameEdge, GameNode, ValidationReport } from './types';
+import { componentCatalog } from './data';
 
 const componentNodes = (nodes: GameNode[]) => nodes.filter((node) => node.type !== 'group');
 const moduleOf = (node: GameNode) => node.parentId ?? node.id;
@@ -71,9 +72,16 @@ export function analyzeArchitecture(nodes: GameNode[], edges: GameEdge[]): Archi
 }
 
 export function validateTicket(ticket: ArchitectureTicket, nodes: GameNode[], edges: GameEdge[]): { valid: boolean; missingComponents: string[]; missingDependencies: [string, string][] } {
-  const present = new Set(componentNodes(nodes).map((node) => node.id));
-  const missingComponents = ticket.requiredComponents.filter((id) => !present.has(id));
+  const present = new Map(componentNodes(nodes).map((node) => [node.id, moduleOf(node)]));
+  const missingComponents = ticket.requiredComponents.filter((id) => {
+    const expectedModule = componentCatalog.find((component) => component.id === id)?.moduleId;
+    return !present.has(id) || Boolean(expectedModule && present.get(id) !== expectedModule);
+  });
   const existing = new Set(edges.map((edge) => `${edge.source}->${edge.target}`));
   const missingDependencies = (ticket.requiredDependencies ?? []).filter(([source, target]) => !existing.has(`${source}->${target}`));
   return { valid: missingComponents.length === 0 && missingDependencies.length === 0, missingComponents, missingDependencies };
+}
+
+export function createValidationReport(ticket: ArchitectureTicket, nodes: GameNode[], edges: GameEdge[]): ValidationReport {
+  return { ...validateTicket(ticket, nodes, edges), warnings: analyzeArchitecture(nodes, edges) };
 }
